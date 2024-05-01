@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 30 2024 г., 17:09
+-- Время создания: Май 01 2024 г., 13:44
 -- Версия сервера: 8.0.30
 -- Версия PHP: 8.1.9
 
@@ -29,8 +29,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `agreement` (
   `id` int NOT NULL,
-  `type_id` int NOT NULL,
-  `money` int NOT NULL
+  `type_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -43,6 +42,21 @@ CREATE TABLE `characteristics` (
   `id` int NOT NULL,
   `charact` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `characteristics`
+--
+
+INSERT INTO `characteristics` (`id`, `charact`) VALUES
+(1, 'Находчивость'),
+(2, 'Своевременность'),
+(3, 'Командная работа'),
+(4, 'Пунктуальность'),
+(5, 'Упорство'),
+(6, 'Стрессоустойчивость'),
+(7, 'Внимательность'),
+(8, 'Любознательность'),
+(9, 'Инициативность');
 
 -- --------------------------------------------------------
 
@@ -162,6 +176,13 @@ CREATE TABLE `pract` (
   `director_ugu_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Дамп данных таблицы `pract`
+--
+
+INSERT INTO `pract` (`id`, `name`, `type_id`, `view_id`, `group_id`, `place_id`, `date_begin`, `date_end`, `order_id`, `director_id`, `director_ugu_id`) VALUES
+(1, 'Производственная', 1, 1, 1, 1, '2024-05-01', '2024-05-01', 1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -177,8 +198,31 @@ CREATE TABLE `pract_student` (
   `characteristic_id` int NOT NULL,
   `volume_id` int NOT NULL,
   `remark_id` int NOT NULL,
-  `director_id` int NOT NULL
+  `director_id` int NOT NULL,
+  `mark` int NOT NULL,
+  `money` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `problem`
+--
+
+CREATE TABLE `problem` (
+  `id` int NOT NULL,
+  `name` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `problem`
+--
+
+INSERT INTO `problem` (`id`, `name`) VALUES
+(1, 'оперативно'),
+(2, 'легко'),
+(3, 'с трудом'),
+(4, 'креативно');
 
 -- --------------------------------------------------------
 
@@ -190,6 +234,16 @@ CREATE TABLE `remarks` (
   `id` int NOT NULL,
   `remarks` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `remarks`
+--
+
+INSERT INTO `remarks` (`id`, `remarks`) VALUES
+(1, 'не посещал занятия'),
+(2, 'не справлялся на с поставленными задачами'),
+(3, 'вызывал конфликты'),
+(4, 'нет');
 
 -- --------------------------------------------------------
 
@@ -210,12 +264,16 @@ CREATE TABLE `responsillities` (
 
 CREATE TABLE `student` (
   `id` int NOT NULL,
-  `first_name` varchar(100) NOT NULL,
-  `second_name` varchar(100) NOT NULL,
-  `third_name` varchar(100) NOT NULL,
-  `institute_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `group_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `student`
+--
+
+INSERT INTO `student` (`id`, `user_id`, `group_id`) VALUES
+(1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -229,6 +287,13 @@ CREATE TABLE `student_group` (
   `course` int NOT NULL,
   `direction_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `student_group`
+--
+
+INSERT INTO `student_group` (`id`, `name`, `course`, `direction_id`) VALUES
+(1, '1521б', 2, 3);
 
 -- --------------------------------------------------------
 
@@ -252,6 +317,14 @@ CREATE TABLE `type_agreement` (
   `id` int NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `type_agreement`
+--
+
+INSERT INTO `type_agreement` (`id`, `name`) VALUES
+(1, 'Долгосрочный'),
+(2, 'Короткосрочный');
 
 -- --------------------------------------------------------
 
@@ -310,6 +383,16 @@ CREATE TABLE `volume` (
   `id` int NOT NULL,
   `volume` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `volume`
+--
+
+INSERT INTO `volume` (`id`, `volume`) VALUES
+(1, 'в полном объеме'),
+(2, 'частично'),
+(3, 'не выполнена'),
+(4, 'успешно');
 
 --
 -- Индексы сохранённых таблиц
@@ -376,6 +459,12 @@ ALTER TABLE `pract_student`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `problem`
+--
+ALTER TABLE `problem`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `remarks`
 --
 ALTER TABLE `remarks`
@@ -403,6 +492,12 @@ ALTER TABLE `student_group`
 -- Индексы таблицы `task`
 --
 ALTER TABLE `task`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `type_agreement`
+--
+ALTER TABLE `type_agreement`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -443,7 +538,7 @@ ALTER TABLE `agreement`
 -- AUTO_INCREMENT для таблицы `characteristics`
 --
 ALTER TABLE `characteristics`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT для таблицы `direction`
@@ -485,7 +580,7 @@ ALTER TABLE `place`
 -- AUTO_INCREMENT для таблицы `pract`
 --
 ALTER TABLE `pract`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_student`
@@ -494,22 +589,34 @@ ALTER TABLE `pract_student`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT для таблицы `problem`
+--
+ALTER TABLE `problem`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
 -- AUTO_INCREMENT для таблицы `remarks`
 --
 ALTER TABLE `remarks`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT для таблицы `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `student_group`
 --
 ALTER TABLE `student_group`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT для таблицы `type_agreement`
+--
+ALTER TABLE `type_agreement`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `type_pract`
@@ -533,7 +640,7 @@ ALTER TABLE `view_pract`
 -- AUTO_INCREMENT для таблицы `volume`
 --
 ALTER TABLE `volume`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
