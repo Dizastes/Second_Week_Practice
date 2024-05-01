@@ -24,5 +24,7 @@ class Practic extends Model
         'order_id',
         'director_id',
         'director_ugu_id',
+        'director_pr_id',
+        'director_or_id'
     ];
 }
