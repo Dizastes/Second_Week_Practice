@@ -4,68 +4,49 @@
 
 <head>
     <title>Регистрация</title>
-    @include('templates.include')
-    @include('templates.bootstrap')
 </head>
 
 
 <body>
-    <main class="login-page">
-        <form action="register" method="post" class="login-form">
+    <main>
+        <form action="register" method="post" class="register-form">
             @csrf
             <div class="container">
-                <div class="form-group">
-                    <label for="login">Логин</label>
-                    <input class="form-control" id="login" type="text" name="login" placeholder="писать здесь">
-                    @error('login')
-                        <small>{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for='name'>Имя</label>
-                    <input class="form-control" id = "name" type="text" name="first_name"
-                        placeholder="писать здесь">
-                    @error('first_name')
-                        <small>{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for='surname'>Фамилия</label>
-                    <input class="form-control" type="text" id="surname" name="second_name"
-                        placeholder="писать здесь">
-                    @error('second_name')
-                        <small>{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for='thirdname'>Отчество</label>
-                    <input class="form-control"type="text" id='thirdname' name="third_name" placeholder="писать здесь">
-                    @error('third_name')
-                        <small>{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="password">Пароль</label>
-                    <input class="form-control" type="password" id="password" name="password"
-                        placeholder="писать здесь">
-                    @error('password')
-                        <small>{{ $message }}</small>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label for="c_password">Подтвердите пароль</label>
-                    <input class="form-control" type="password" id= "c_password" name="c_password"
-                        placeholder="писать здесь">
-                    @error('c_password')
-                        <small>{{ $message }}</small>
-                    @enderror
-                </div>
-                <button type="submit" class="btn btn-outline-secondary"
-                    style='display:block; margin-left:auto; margin-right:auto'>Регистрация</button>
+                <label class="row">логин</label>
+                <input class="row" type="text" name="login" placeholder="">
+                @error('login')
+                    {{ $message }}
+                @enderror
+                <label class="row">имя</label>
+                <input class="row" type="text" name="first_name" placeholder="">
+                @error('first_name')
+                    {{ $message }}
+                @enderror
+                <label class="row">фамилия</label>
+                <input class="row" type="text" name="second_name" placeholder="">
+                @error('second_name')
+                    {{ $message }}
+                @enderror
+                <label class="row">Отчество</label>
+                <input class="row" type="text" name="third_name" placeholder="">
+                @error('third_name')
+                    {{ $message }}
+                @enderror
+                <label class="row">пароль</label>
+                <input class="row" type="password" name="password" placeholder="">
+                @error('password')
+                    {{ $message }}
+                @enderror
+                <label class="row">подтвердите пароль</label>
+                <input class="row" type="password" name="c_password" placeholder="">
+                @error('c_password')
+                    {{ $message }}
+                @enderror
+                <input class="row" type="submit" value="регистрация">
             </div>
             <div class="container text-center mt-3">
                 <h2>уже есть аккаунт?</h2>
-                <a href="login" class="btn btn-outline-secondary">Вход</a>
+                <a href="login" class="link-btn">вход</a>
             </div>
         </form>
     </main>

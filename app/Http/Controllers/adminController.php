@@ -39,6 +39,17 @@ class adminController extends Controller
     	return redirect('admin');
     }
 
+	public function createDirector(Request $request)
+    {
+    	$user = $request->input('user');
+
+		if ($user != null) {
+			director::create(['user_id'=>$user]);
+		}
+		
+    	return redirect('admin');
+    }
+
     public function deleteDirection(Request $request) 
     {
     	$id = $request->input('direction');
