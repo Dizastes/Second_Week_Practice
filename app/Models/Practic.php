@@ -18,6 +18,7 @@ class Practic extends Model
         'view_id',
         'group_id',
         'place_id',
+        'year',
         'date_begin',
         'date_end',
         'order_id',

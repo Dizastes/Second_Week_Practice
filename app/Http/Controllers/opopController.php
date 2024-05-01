@@ -99,8 +99,8 @@ class opopController extends Controller
         $dir_o = $request->input('dir_o');
         $dir_practise = $request->input('dir_practise');
         $director_id = director::where('id', $dir_university)->first()->setAttribute('responsibillity', 0)->save();
-        director::where('id', $dir_p)->first()->setAttribute('responsibillity', 1)->save();
-        director::where('id', $dir_o)->first()->setAttribute('responsibillity', 2)->save();
+        $director_pr_id = director::where('id', $dir_p)->first()->setAttribute('responsibillity', 1)->save();
+        $director_or_id = director::where('id', $dir_o)->first()->setAttribute('responsibillity', 2)->save();
         $director_ugu_id = director::where('id', $dir_practise)->first()->setAttribute('responsibillity', 3)->save();
 
         $group = $request->input('group');
@@ -111,7 +111,8 @@ class opopController extends Controller
         $begin = $request->input('begin');
         $end = $request->input('end');
         Practic::create(['name'=>$pract_name,'type_id'=>$type,'view_id'=>$view,'group_id'=>$group,'year'=>$year,
-    'place_id'=>$place->id,'date_begin'=>$begin,'date_end'=>$end,'order_id'=>$order->id,'director_id'=>$director_id,'director_ugu_id'=>$director_ugu_id]);
+    'place_id'=>$place->id,'date_begin'=>$begin,'date_end'=>$end,'order_id'=>$order->id,'director_id'=>$director_id,'director_ugu_id'=>$director_ugu_id,
+    'director_pr_id'=>$director_pr_id,'director_or_id'=>$director_or_id]);
         
         return redirect('opop');
     }
