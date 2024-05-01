@@ -65,6 +65,21 @@ class PractisController extends Controller
     	$problem_list = $request->input('problem');
     	$reason = $request->input('reason');
 
+    	$new_agreement = Agreement::create([
+    		'type_id' => $agreement_id
+    	]);
+
+    	$new_pract_student = PractStudent::create([
+    		'pract_id' => $practic_id,
+	        'student_id' => $student_id,
+	        'agreement_id' => $new_agreement->id,
+	        'task_id' => null,
+	        'volume_id' => $volume_id,
+	        'mark' => $mark,
+	        'money' => ($money == 'on') ? true : false,
+	        'reason_id' => $reason,
+	        'complete' => ($complete == 'on') ? true : false,
+    	]);
 
     	$file = $request->file('file');
 		$handle = fopen($file, "r");
@@ -94,25 +109,10 @@ class PractisController extends Controller
 		  	Task::create([
 		  		'task' => $subject,
 		  		'date' => $date->format('Y-m-d'),
-		  		'student_id' => $student_id
+		  		'pract_student_id' => $new_pract_student->id,
+		  		'pract_id' => $practic_id
 		  	]);
 		}
-
-    	$new_agreement = Agreement::create([
-    		'type_id' => $agreement_id
-    	]);
-
-    	$new_pract_student = PractStudent::create([
-    		'pract_id' => $practic_id,
-	        'student_id' => $student_id,
-	        'agreement_id' => $new_agreement->id,
-	        'task_id' => null,
-	        'volume_id' => $volume_id,
-	        'mark' => $mark,
-	        'money' => ($money == 'on') ? true : false,
-	        'reason_id' => $reason,
-	        'complete' => ($complete == 'on') ? true : false,
-    	]);
 
     	foreach ($characteristics_list as $charact) {
     		PractCharacteristic::create([

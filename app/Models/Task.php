@@ -15,6 +15,7 @@ class Task extends Model
         'id',
         'task',
         'date',
-        'student_id',
+        'pract_student_id',
+        'pract_id',
     ];
 }
