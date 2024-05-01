@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Апр 30 2024 г., 17:09
+-- Время создания: Май 01 2024 г., 13:29
 -- Версия сервера: 8.0.30
 -- Версия PHP: 8.1.9
 
@@ -67,7 +67,7 @@ CREATE TABLE `direction` (
 INSERT INTO `direction` (`id`, `name`, `code`, `institute_id`, `updated_at`, `created_at`, `director_id`) VALUES
 (3, 'пи', '09-03-04', 1, '2024-04-30', '2024-04-30', NULL),
 (4, 'misha', '09-03-04', 2, '2024-04-30', '2024-04-30', NULL),
-(5, 'ивт', '09-03-04', 1, '2024-04-30', '2024-04-30', NULL),
+(5, 'ивт', '09-03-04', 1, '2024-05-01', '2024-04-30', 15),
 (6, 'misha', '09-03-04', 1, '2024-04-30', '2024-04-30', NULL);
 
 -- --------------------------------------------------------
@@ -81,8 +81,18 @@ CREATE TABLE `director` (
   `post` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `updated_at` date NOT NULL,
   `created_at` date NOT NULL,
-  `user_id` int NOT NULL
+  `user_id` int NOT NULL,
+  `responsibillity` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `director`
+--
+
+INSERT INTO `director` (`id`, `post`, `updated_at`, `created_at`, `user_id`, `responsibillity`) VALUES
+(15, NULL, '2024-05-01', '2024-05-01', 1, NULL),
+(16, NULL, '2024-05-01', '2024-05-01', 2, NULL),
+(17, NULL, '2024-05-01', '2024-05-01', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -127,7 +137,9 @@ INSERT INTO `institute` (`id`, `name`, `updated_at`, `created_at`) VALUES
 CREATE TABLE `orderr` (
   `id` int NOT NULL,
   `number` varchar(255) NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
+  `created_at` date DEFAULT NULL,
+  `updated_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -139,7 +151,10 @@ CREATE TABLE `orderr` (
 CREATE TABLE `place` (
   `id` int NOT NULL,
   `name` varchar(100) NOT NULL,
-  `address` varchar(255) NOT NULL
+  `address` varchar(255) NOT NULL,
+  `city` text NOT NULL,
+  `created_at` date DEFAULT NULL,
+  `updated_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -159,7 +174,9 @@ CREATE TABLE `pract` (
   `date_end` date NOT NULL,
   `order_id` int NOT NULL,
   `director_id` int NOT NULL,
-  `director_ugu_id` int NOT NULL
+  `director_ugu_id` int NOT NULL,
+  `created_at` date DEFAULT NULL,
+  `updated_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -177,8 +194,31 @@ CREATE TABLE `pract_student` (
   `characteristic_id` int NOT NULL,
   `volume_id` int NOT NULL,
   `remark_id` int NOT NULL,
-  `director_id` int NOT NULL
+  `director_id` int NOT NULL,
+  `reason_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `reasons`
+--
+
+CREATE TABLE `reasons` (
+  `id` int NOT NULL,
+  `name` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `reasons`
+--
+
+INSERT INTO `reasons` (`id`, `name`) VALUES
+(2, 'Декрет'),
+(3, 'Академический отпуск'),
+(5, 'Семейные обстоятельства'),
+(6, 'Болезнь'),
+(7, 'Суд');
 
 -- --------------------------------------------------------
 
@@ -202,6 +242,16 @@ CREATE TABLE `responsillities` (
   `name` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Дамп данных таблицы `responsillities`
+--
+
+INSERT INTO `responsillities` (`id`, `name`) VALUES
+(0, 'Руководитель от ВУЗа'),
+(1, 'Руководитель от предприятия'),
+(2, 'Руководитель от организации'),
+(3, 'Руководителя практики');
+
 -- --------------------------------------------------------
 
 --
@@ -210,12 +260,19 @@ CREATE TABLE `responsillities` (
 
 CREATE TABLE `student` (
   `id` int NOT NULL,
-  `first_name` varchar(100) NOT NULL,
-  `second_name` varchar(100) NOT NULL,
-  `third_name` varchar(100) NOT NULL,
-  `institute_id` int NOT NULL,
-  `group_id` int NOT NULL
+  `user_id` int NOT NULL,
+  `group_id` int NOT NULL,
+  `created_at` date DEFAULT NULL,
+  `updated_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `student`
+--
+
+INSERT INTO `student` (`id`, `user_id`, `group_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, '2024-05-01', '2024-05-01'),
+(2, 2, 1, '2024-05-01', '2024-05-01');
 
 -- --------------------------------------------------------
 
@@ -226,9 +283,18 @@ CREATE TABLE `student` (
 CREATE TABLE `student_group` (
   `id` int NOT NULL,
   `name` text NOT NULL,
-  `course` int NOT NULL,
-  `direction_id` int NOT NULL
+  `course` int DEFAULT NULL,
+  `direction_id` int NOT NULL,
+  `created_at` date DEFAULT NULL,
+  `updated_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `student_group`
+--
+
+INSERT INTO `student_group` (`id`, `name`, `course`, `direction_id`, `created_at`, `updated_at`) VALUES
+(1, '1521б', 2, 3, '2024-05-01', '2024-05-01');
 
 -- --------------------------------------------------------
 
@@ -264,6 +330,17 @@ CREATE TABLE `type_pract` (
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Дамп данных таблицы `type_pract`
+--
+
+INSERT INTO `type_pract` (`id`, `name`) VALUES
+(1, 'Научно-исследовательская'),
+(2, 'Производственная'),
+(3, 'Технологическая'),
+(4, 'Ознакомительная'),
+(5, 'Преддипломная');
+
 -- --------------------------------------------------------
 
 --
@@ -287,7 +364,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `second_name`, `third_name`, `role`, `login`, `password`, `updated_at`, `created_at`) VALUES
-(1, 'Михаил', 'Максимчук', 'Юрьевич', 2, 'lollipop', '$2y$12$MbqleNXpi7yuEoPKvfsDsOuLzQk5sWYVRB788TBJsFidld6uO28Ou', '2024-04-30', '2024-04-30');
+(1, 'Михаил', 'Максимчук', 'Юрьевич', 2, 'lollipop', '$2y$12$MbqleNXpi7yuEoPKvfsDsOuLzQk5sWYVRB788TBJsFidld6uO28Ou', '2024-04-30', '2024-04-30'),
+(2, '312313', '32131231', '312312312', 0, 'BirdyNero', '$2y$12$JnO/tZM8glr52udLuDX3c.dAnIrlnhTFFIYNRdWXq2r1C1x1cfAUS', '2024-05-01', '2024-05-01'),
+(3, '312313321', '3213123', '13212312', 0, 'admin1', '$2y$12$/oOsS6QNGBx/J5.7jr45E.QNt4yWkg2KFTV30lS.UVifyQOz92Db.', '2024-05-01', '2024-05-01');
 
 -- --------------------------------------------------------
 
@@ -299,6 +378,14 @@ CREATE TABLE `view_pract` (
   `id` int NOT NULL,
   `name` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `view_pract`
+--
+
+INSERT INTO `view_pract` (`id`, `name`) VALUES
+(1, 'Учебная'),
+(2, 'Производственная');
 
 -- --------------------------------------------------------
 
@@ -373,6 +460,12 @@ ALTER TABLE `pract`
 -- Индексы таблицы `pract_student`
 --
 ALTER TABLE `pract_student`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Индексы таблицы `reasons`
+--
+ALTER TABLE `reasons`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -455,7 +548,7 @@ ALTER TABLE `direction`
 -- AUTO_INCREMENT для таблицы `director`
 --
 ALTER TABLE `director`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `dir_res`
@@ -473,25 +566,31 @@ ALTER TABLE `institute`
 -- AUTO_INCREMENT для таблицы `orderr`
 --
 ALTER TABLE `orderr`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `place`
 --
 ALTER TABLE `place`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `pract`
 --
 ALTER TABLE `pract`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_student`
 --
 ALTER TABLE `pract_student`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT для таблицы `reasons`
+--
+ALTER TABLE `reasons`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `remarks`
@@ -503,31 +602,31 @@ ALTER TABLE `remarks`
 -- AUTO_INCREMENT для таблицы `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `student_group`
 --
 ALTER TABLE `student_group`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT для таблицы `type_pract`
 --
 ALTER TABLE `type_pract`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `view_pract`
 --
 ALTER TABLE `view_pract`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `volume`
