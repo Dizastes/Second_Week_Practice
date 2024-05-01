@@ -217,7 +217,7 @@ CREATE TABLE `pract_student` (
   `remark_id` int NOT NULL,
   `director_id` int NOT NULL,
   `mark` int NOT NULL,
-  `money` tinyint(1) NOT NULL
+  `money` tinyint(1) NOT NULL,
   `reason_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
