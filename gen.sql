@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 01 2024 г., 16:37
+-- Время создания: Май 01 2024 г., 17:19
 -- Версия сервера: 8.0.30
 -- Версия PHP: 8.1.9
 
@@ -39,11 +39,7 @@ CREATE TABLE `agreement` (
 --
 
 INSERT INTO `agreement` (`id`, `type_id`, `created_at`, `updated_at`) VALUES
-(4, 1, '2024-05-01', '2024-05-01'),
-(5, 1, '2024-05-01', '2024-05-01'),
-(6, 1, '2024-05-01', '2024-05-01'),
-(7, 1, '2024-05-01', '2024-05-01'),
-(8, 2, '2024-05-01', '2024-05-01');
+(11, 2, '2024-05-01', '2024-05-01');
 
 -- --------------------------------------------------------
 
@@ -233,9 +229,9 @@ CREATE TABLE `pract_characteristic` (
 --
 
 INSERT INTO `pract_characteristic` (`id`, `pract_id`, `characteristic_id`, `updated_at`, `created_at`) VALUES
-(17, 7, 7, '2024-05-01', '2024-05-01'),
-(18, 7, 8, '2024-05-01', '2024-05-01'),
-(19, 7, 4, '2024-05-01', '2024-05-01');
+(22, 9, 7, '2024-05-01', '2024-05-01'),
+(23, 9, 8, '2024-05-01', '2024-05-01'),
+(24, 9, 2, '2024-05-01', '2024-05-01');
 
 -- --------------------------------------------------------
 
@@ -256,8 +252,7 @@ CREATE TABLE `pract_problem` (
 --
 
 INSERT INTO `pract_problem` (`id`, `pract_id`, `problem_id`, `updated_at`, `created_at`) VALUES
-(3, 7, 1, '2024-05-01', '2024-05-01'),
-(4, 7, 4, '2024-05-01', '2024-05-01');
+(6, 9, 4, '2024-05-01', '2024-05-01');
 
 -- --------------------------------------------------------
 
@@ -278,7 +273,7 @@ CREATE TABLE `pract_remark` (
 --
 
 INSERT INTO `pract_remark` (`id`, `pract_id`, `remark_id`, `updated_at`, `created_at`) VALUES
-(5, 7, 4, '2024-05-01', '2024-05-01');
+(7, 9, 4, '2024-05-01', '2024-05-01');
 
 -- --------------------------------------------------------
 
@@ -291,7 +286,6 @@ CREATE TABLE `pract_student` (
   `pract_id` int NOT NULL,
   `student_id` int NOT NULL,
   `agreement_id` int NOT NULL,
-  `task_id` int DEFAULT NULL,
   `volume_id` int NOT NULL,
   `mark` int NOT NULL,
   `money` tinyint(1) NOT NULL,
@@ -305,8 +299,8 @@ CREATE TABLE `pract_student` (
 -- Дамп данных таблицы `pract_student`
 --
 
-INSERT INTO `pract_student` (`id`, `pract_id`, `student_id`, `agreement_id`, `task_id`, `volume_id`, `mark`, `money`, `reason_id`, `complete`, `updated_at`, `created_at`) VALUES
-(7, 1, 1, 8, NULL, 1, 4, 1, NULL, 1, '2024-05-01', '2024-05-01');
+INSERT INTO `pract_student` (`id`, `pract_id`, `student_id`, `agreement_id`, `volume_id`, `mark`, `money`, `reason_id`, `complete`, `updated_at`, `created_at`) VALUES
+(9, 1, 1, 11, 1, 4, 0, NULL, 1, '2024-05-01', '2024-05-01');
 
 -- --------------------------------------------------------
 
@@ -464,8 +458,21 @@ INSERT INTO `student_group` (`id`, `name`, `course`, `direction_id`, `created_at
 CREATE TABLE `task` (
   `id` int NOT NULL,
   `task` text NOT NULL,
-  `date` timestamp NOT NULL
+  `date` date NOT NULL,
+  `updated_at` date NOT NULL,
+  `created_at` date NOT NULL,
+  `student_id` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `task`
+--
+
+INSERT INTO `task` (`id`, `task`, `date`, `updated_at`, `created_at`, `student_id`) VALUES
+(9, 'Front-end регистрации/авторизации', '2024-04-24', '2024-05-01', '2024-05-01', 1),
+(10, 'Вывод заказов', '2024-04-23', '2024-05-01', '2024-05-01', 1),
+(11, 'Front-end страницы курьера', '2024-04-23', '2024-05-01', '2024-05-01', 1),
+(12, 'Front-end главной страницы', '2024-04-23', '2024-05-01', '2024-05-01', 1);
 
 -- --------------------------------------------------------
 
@@ -656,6 +663,12 @@ ALTER TABLE `pract_student`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `task`
+--
+ALTER TABLE `task`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -663,31 +676,37 @@ ALTER TABLE `pract_student`
 -- AUTO_INCREMENT для таблицы `agreement`
 --
 ALTER TABLE `agreement`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_characteristic`
 --
 ALTER TABLE `pract_characteristic`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_problem`
 --
 ALTER TABLE `pract_problem`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_remark`
 --
 ALTER TABLE `pract_remark`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_student`
 --
 ALTER TABLE `pract_student`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT для таблицы `task`
+--
+ALTER TABLE `task`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
