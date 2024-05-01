@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\PractisController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,3 +48,5 @@ Route::post('createOPOP',[adminController::class, 'OPOP']);
 Route::get('admin',[adminController::class, 'getData']);
 
 Route::get('test', [adminController::class,'getList']);
+
+Route::get('practic', [PractisController::class, 'getData']);
