@@ -11,7 +11,7 @@
 <body>
 	<h1>Руководитель практики</h1>
 	<div>
-		<form action="addPractStudent" method="post">
+		<form action="addPractStudent" method="post" enctype="multipart/form-data">
 			@csrf
 
 			<h5>Практика</h5>
@@ -65,7 +65,7 @@
 			</select>
 
 			<h5>Производственные задачи</h5>
-			<!-- Здесь хуй пойми что -->
+			<input type="file" name="file">
 
 			<h5>Качества</h5>
 			<select id='select-characteristics' name="characteristics[]" placeholder="Качествва" multiple>

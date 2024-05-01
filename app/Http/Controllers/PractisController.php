@@ -17,6 +17,7 @@ use App\Models\Reason;
 use App\Models\PractCharacteristic;
 use App\Models\PractRemark;
 use App\Models\PractProblem;
+use App\Models\Task;
 
 class PractisController extends Controller
 {
@@ -63,6 +64,39 @@ class PractisController extends Controller
     	$remarks_list = $request->input('remarks');
     	$problem_list = $request->input('problem');
     	$reason = $request->input('reason');
+
+
+    	$file = $request->file('file');
+		$handle = fopen($file, "r");
+		// Получаем заголовки столбцов
+		$headers = fgetcsv($handle, 1000, ",");
+		if ($handle !== FALSE) {
+		  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+		    // $data содержит массив значений строки CSV
+		    // Создаем ассоциативный массив, используя заголовки столбцов
+		    $row = array_combine($headers, $data);
+		    // Делайте что-то с $row, например, добавляйте его в другой массив
+		    $csvRows[] = $row;
+		  }
+		  fclose($handle);
+		}
+		// $csvRows теперь содержит все строки CSV в виде массива ассоциативных массивов
+		foreach ($csvRows as $row) {
+		  	$subject = $row['Subject'];
+		  	$date = $row['Start date'];
+
+		  	$date = str_replace(' ', '', $date);
+			$date = str_replace('/', '', $date);
+
+			$dateFormat = "dmY";
+			$date = \DateTime::createFromFormat($dateFormat, $date);
+
+		  	Task::create([
+		  		'task' => $subject,
+		  		'date' => $date->format('Y-m-d'),
+		  		'student_id' => $student_id
+		  	]);
+		}
 
     	$new_agreement = Agreement::create([
     		'type_id' => $agreement_id

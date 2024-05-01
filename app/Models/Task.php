@@ -5,21 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PractStudent extends Model
+class Task extends Model
 {
     use HasFactory;
 
-    protected $table = "pract_student";
+    protected $table = "task";
 
     protected $fillable = [
         'id',
-        'pract_id',
+        'task',
+        'date',
         'student_id',
-        'agreement_id',
-        'volume_id',
-        'mark',
-        'money',
-        'reason_id',
-        'complete',
     ];
 }
