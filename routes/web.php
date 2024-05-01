@@ -37,15 +37,15 @@ Route::middleware(['login'])->group(function () {
 Route::middleware(['jwt'])->group(function () {
     Route::get('logout', [LoginController::class, "logout"]);
 });
-Route::post('createInstitute',[adminController::class, 'createInstitute']);
+Route::post('createInstitute', [adminController::class, 'createInstitute']);
 
-Route::post('createDirection',[adminController::class, 'createDirection']);
+Route::post('createDirection', [adminController::class, 'createDirection']);
 
-Route::post('deleteDirection',[adminController::class, 'deleteDirection']);
+Route::post('deleteDirection', [adminController::class, 'deleteDirection']);
 
-Route::post('createOPOP',[adminController::class, 'OPOP']);
+Route::post('createOPOP', [adminController::class, 'OPOP']);
 
-Route::get('admin',[adminController::class, 'getData']);
+Route::get('admin', [adminController::class, 'getData']);
 
 Route::get('test', [adminController::class,'getList']);
 

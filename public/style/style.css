@@ -1,0 +1,91 @@
+header h1 {
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 5%;
+}
+
+main {
+    width: 80%;
+    margin: 2% auto;
+}
+
+.container_admin,
+.form_admin {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.container_admin h2 {
+    width: 32%;
+}
+
+.form_admin {
+    width: 68%;
+    margin-left: 1%;
+}
+
+.form_admin * {
+    margin-right: 1%;
+}
+
+.form_admin button {
+    width: 4vh;
+    height: 4vh;
+    background-color: #c8deff;
+    border-radius: 50%;
+    border: none;
+    font-size: 30px;
+    margin: 0;
+}
+
+hr {
+    border: 0.5vh solid #45439d;
+}
+
+.selectize-input {
+    display: flex;
+    align-items: center;
+}
+
+.main_admin input,
+.main_admin .selectize-input {
+    border-radius: 50px;
+    border: none;
+    background-color: #c8deff;
+    width: 15vw;
+    height: 4vh;
+    vertical-align: middle;
+    padding-left: 1%;
+    outline: none;
+    font-size: 20px;
+}
+
+.login-form {
+    width: 100%;
+    margin: auto;
+}
+
+.login-form * {
+    margin-top: 0.5%;
+}
+
+.login-page {
+    width: 80%;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+}
+
+.login-page form {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.login-form input {
+    background-color: #c8deff;
+    border: none;
+    color: black;
+}
