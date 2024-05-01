@@ -58,3 +58,5 @@ Route::post('createGroup',[opopController::class, 'createGroup']);
 Route::post('giveCourse',[opopController::class, 'giveCourse']);
 Route::post('studentToGroup',[opopController::class, 'studentToGroup']);
 Route::post('createPract',[opopController::class, 'createPract']);
+
+Route::post('addPractStudent', [PractisController::class, 'addPractStudent']);

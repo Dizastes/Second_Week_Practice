@@ -11,7 +11,7 @@
 <body>
 	<h1>Руководитель практики</h1>
 	<div>
-		<form action="" method="post">
+		<form action="addPractStudent" method="post">
 			@csrf
 
 			<h5>Практика</h5>
@@ -46,6 +46,15 @@
 			<h5>Прошел ли практику</h5>
 			<input type="checkbox" name="complete">
 
+			<h5>Причина(если не прошел практику)</h5>
+			<select id='select-volume' name="reason" placeholder="Причина">
+				<option value=""></option>
+				@foreach($reasons as $reason)
+			  		<option value="{{$reason->id}}">{{$reason->name}}</option>
+					}
+			  	@endforeach	
+			</select>
+
 			<h5>Оценка</h5>
 			<select id='select-mark' name="mark" placeholder="Оценка">
 				<option value=""></option>
@@ -59,7 +68,7 @@
 			<!-- Здесь хуй пойми что -->
 
 			<h5>Качества</h5>
-			<select id='select-characteristics' name="characteristics" placeholder="Качествва" multiple>
+			<select id='select-characteristics' name="characteristics[]" placeholder="Качествва" multiple>
 				<option value=""></option>
 				@foreach($characteristics as $characteristic)
 			  		<option value="{{$characteristic->id}}">{{$characteristic->charact}}</option>
@@ -77,7 +86,7 @@
 			</select>
 
 			<h5>Замечания</h5>
-			<select id='select-remarks' name="remarks" placeholder="Замечания" multiple>
+			<select id='select-remarks' name="remarks[]" placeholder="Замечания" multiple>
 				<option value=""></option>
 				@foreach($remarks as $remark)
 			  		<option value="{{$remark->id}}">{{$remark->remarks}}</option>
@@ -86,13 +95,15 @@
 			</select>
 
 			<h5>Как справлялся с проблемами</h5>
-			<select id='select-problem' name="problem" placeholder="Спавлялся с проблемами" multiple>
+			<select id='select-problem' name="problem[]" placeholder="Спавлялся с проблемами" multiple>
 				<option value=""></option>
 				@foreach($problems as $problem)
 			  		<option value="{{$problem->id}}">{{$problem->name}}</option>
 					}
 			  	@endforeach	
 			</select>
+
+			<input type="submit">
 		</form>
 	</div>
 	<script>
