@@ -7,6 +7,7 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\generateController;
 use App\Http\Controllers\PractisController;
 use App\Http\Controllers\opopController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,3 +65,9 @@ Route::post('createPract', [opopController::class, 'createPract']);
 Route::post('addPractStudent', [PractisController::class, 'addPractStudent']);
 
 Route::get('Otchet', [generateController::class, 'getWord']);
+
+Route::get('student', [StudentController::class, 'getData'])->name('student');
+
+Route::post('download', [generateController::class, 'getWord']);
+
+Route::post('uploadfile', [StudentController::class, 'uploadFile']);
