@@ -83,7 +83,8 @@
                 </div>
                 <div class="container_admin">
                     <h2>Качества</h2>
-                    <select id='select-characteristics' name="characteristics[]" placeholder="Качествва" multiple>
+                    <select id='select-characteristics' name="characteristics[]" class="selectmore"
+                        placeholder="Качествва" multiple>
                         <option value=""></option>
                         @foreach ($characteristics as $characteristic)
                             <option value="{{ $characteristic->id }}">{{ $characteristic->charact }}</option>
@@ -101,7 +102,7 @@
                 </div>
                 <div class="container_admin">
                     <h2>Замечания</h2>
-                    <select id='select-remarks' name="remarks[]" placeholder="Замечания" multiple>
+                    <select id='select-remarks' name="remarks[]" class="selectmore" placeholder="Замечания" multiple>
                         <option value=""></option>
                         @foreach ($remarks as $remark)
                             <option value="{{ $remark->id }}">{{ $remark->remarks }}</option>
@@ -110,7 +111,8 @@
                 </div>
                 <div class="container_admin">
                     <h2>Как справлялся с проблемами</h2>
-                    <select id='select-problem' name="problem[]" placeholder="Спавлялся с проблемами" multiple>
+                    <select id='select-problem' name="problem[]" class="selectmore" placeholder="Спавлялся с проблемами"
+                        multiple>
                         <option value=""></option>
                         @foreach ($problems as $problem)
                             <option value="{{ $problem->id }}">{{ $problem->name }}</option>
@@ -128,6 +130,18 @@
             $('select').selectize({
                 sortField: 'text'
             });
+        });
+
+        $("select.selectmore").selectize({
+            delimiter: ",",
+            persist: false,
+            maxItems: null,
+            create: function(input) {
+                return {
+                    value: input,
+                    text: input,
+                };
+            }
         });
 
         $('.input-file input[type=file]').on('change', function() {

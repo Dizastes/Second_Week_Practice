@@ -47,15 +47,21 @@ hr {
 .selectize-input {
     display: flex;
     align-items: center;
-    width: 100%;
+    min-width: 15vw;
+    max-width: 500px;
     border-radius: 50px !important;
     border: none;
     background-color: #c8deff !important;
-    width: 15vw;
-    height: 4vh;
+    flex-wrap: wrap;
+    padding: 1.5%;
     vertical-align: middle;
     outline: none;
     font-size: 20px;
+}
+
+.selectize-input * {
+    background-color: #c8deff !important;
+    padding: 1%;
 }
 
 .main_admin input {

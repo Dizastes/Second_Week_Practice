@@ -21,118 +21,123 @@ use App\Models\Task;
 
 class PractisController extends Controller
 {
-    public function getData(Request $request)
-    {
-    	$students = Student::all();
-    	$students_list = [];
+	public function getData(Request $request)
+	{
+		$students = Student::all();
+		$students_list = [];
 
-    	foreach ($students as $value) {
-    		$uid = $value->user_id;
+		foreach ($students as $value) {
+			$uid = $value->user_id;
 
-    		$student = User::where('id', $uid)->get();
-    		$students_list[] = $student;
-    		
-    	}
+			$student = User::where('id', $uid)->get();
+			$students_list[] = $student;
+		}
 
-    	$agreement_type = AgreementType::all();
+		$agreement_type = AgreementType::all();
 
-    	$practics = Practic::all();
+		$practics = Practic::all();
 
-    	$characteristics = Characteristics::all();
+		$characteristics = Characteristics::all();
 
-    	$volumes = Volume::all();
+		$volumes = Volume::all();
 
-    	$remarks = Remarks::all();
+		$remarks = Remarks::all();
 
-    	$problems = Problem::all();
+		$problems = Problem::all();
 
-    	$reasons = Reason::all();
+		$reasons = Reason::all();
 
-    	return view('practic', ['students' => $students_list, 'agreement' => $agreement_type, 'practics' => $practics, 'characteristics' => $characteristics, 'volumes' => $volumes, 'remarks' => $remarks, 'problems' => $problems, 'reasons' => $reasons]);
-    }
+		return view('practic', ['students' => $students_list, 'agreement' => $agreement_type, 'practics' => $practics, 'characteristics' => $characteristics, 'volumes' => $volumes, 'remarks' => $remarks, 'problems' => $problems, 'reasons' => $reasons]);
+	}
 
 
-    public function addPractStudent(Request $request) {
-    	$practic_id = $request->input('practic');
-    	$student_id = $request->input('student');
-    	$agreement_id = $request->input('agreement');
-    	$money = $request->input('money');
-    	$complete = $request->input('complete');
-    	$mark = $request->input('mark');
-    	$characteristics_list = $request->input('characteristics');
-    	$volume_id = $request->input('volume');
-    	$remarks_list = $request->input('remarks');
-    	$problem_list = $request->input('problem');
-    	$reason = $request->input('reason');
+	public function addPractStudent(Request $request)
+	{
+		$practic_id = $request->input('practic');
+		$student_id = $request->input('student');
+		$agreement_id = $request->input('agreement');
+		$money = $request->input('money');
+		$complete = $request->input('complete');
+		$mark = $request->input('mark');
+		$characteristics_list = $request->input('characteristics');
+		$volume_id = $request->input('volume');
+		$remarks_list = $request->input('remarks');
+		$problem_list = $request->input('problem');
+		$reason = $request->input('reason');
 
-    	$new_agreement = Agreement::create([
-    		'type_id' => $agreement_id
-    	]);
 
-    	$new_pract_student = PractStudent::create([
-    		'pract_id' => $practic_id,
-	        'student_id' => $student_id,
-	        'agreement_id' => $new_agreement->id,
-	        'task_id' => null,
-	        'volume_id' => $volume_id,
-	        'mark' => $mark,
-	        'money' => ($money == 'on') ? true : false,
-	        'reason_id' => $reason,
-	        'complete' => ($complete == 'on') ? true : false,
-    	]);
+		if (PractStudent::where('student_id', $student_id)->exists()) {
+			return response()->json('Такой студент уже есть в базе', 400);
+		}
 
-    	$file = $request->file('file');
+		$new_agreement = Agreement::create([
+			'type_id' => $agreement_id
+		]);
+
+		$new_pract_student = PractStudent::create([
+			'pract_id' => $practic_id,
+			'student_id' => $student_id,
+			'agreement_id' => $new_agreement->id,
+			'task_id' => null,
+			'volume_id' => $volume_id,
+			'mark' => $mark,
+			'money' => ($money == 'on') ? true : false,
+			'reason_id' => $reason,
+			'complete' => ($complete == 'on') ? true : false,
+		]);
+
+		$file = $request->file('file');
 		$handle = fopen($file, "r");
 		// Получаем заголовки столбцов
 		$headers = fgetcsv($handle, 1000, ",");
 		if ($handle !== FALSE) {
-		  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-		    // $data содержит массив значений строки CSV
-		    // Создаем ассоциативный массив, используя заголовки столбцов
-		    $row = array_combine($headers, $data);
-		    // Делайте что-то с $row, например, добавляйте его в другой массив
-		    $csvRows[] = $row;
-		  }
-		  fclose($handle);
+			while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+				// $data содержит массив значений строки CSV
+				// Создаем ассоциативный массив, используя заголовки столбцов
+				$row = array_combine($headers, $data);
+				// Делайте что-то с $row, например, добавляйте его в другой массив
+				$csvRows[] = $row;
+			}
+			fclose($handle);
 		}
 		// $csvRows теперь содержит все строки CSV в виде массива ассоциативных массивов
 		foreach ($csvRows as $row) {
-		  	$subject = $row['Subject'];
-		  	$date = $row['Start date'];
+			$subject = $row['Subject'];
+			$date = $row['Start date'];
 
-		  	$date = str_replace(' ', '', $date);
+			$date = str_replace(' ', '', $date);
 			$date = str_replace('/', '', $date);
 
 			$dateFormat = "dmY";
 			$date = \DateTime::createFromFormat($dateFormat, $date);
 
-		  	Task::create([
-		  		'task' => $subject,
-		  		'date' => $date->format('Y-m-d'),
-		  		'pract_student_id' => $new_pract_student->id,
-		  		'pract_id' => $practic_id
-		  	]);
+			Task::create([
+				'task' => $subject,
+				'date' => $date->format('Y-m-d'),
+				'pract_student_id' => $new_pract_student->id,
+				'pract_id' => $practic_id
+			]);
 		}
 
-    	foreach ($characteristics_list as $charact) {
-    		PractCharacteristic::create([
-    			'pract_id' => $new_pract_student->id,
-    			'characteristic_id' => $charact
-    		]);
-    	}
+		foreach ($characteristics_list as $charact) {
+			PractCharacteristic::create([
+				'pract_id' => $new_pract_student->id,
+				'characteristic_id' => $charact
+			]);
+		}
 
-    	foreach ($remarks_list as $remark) {
-    		PractRemark::create([
-    			'pract_id' => $new_pract_student->id,
-    			'remark_id' => $remark
-    		]);
-    	}
+		foreach ($remarks_list as $remark) {
+			PractRemark::create([
+				'pract_id' => $new_pract_student->id,
+				'remark_id' => $remark
+			]);
+		}
 
-    	foreach ($problem_list as $problem) {
-    		PractProblem::create([
-    			'pract_id' => $new_pract_student->id,
-    			'problem_id' => $problem
-    		]);
-    	}
-    }
+		foreach ($problem_list as $problem) {
+			PractProblem::create([
+				'pract_id' => $new_pract_student->id,
+				'problem_id' => $problem
+			]);
+		}
+	}
 }
