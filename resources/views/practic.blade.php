@@ -28,7 +28,7 @@
                 </div>
                 <div class="container_admin">
                     <h2>Выбрать студента</h2>
-                    <select id='select-student' name="student" placeholder="Студент" multiple>
+                    <select id='select-student' name="student" placeholder="Студент">
                         <option value=""></option>
                         @foreach ($students as $student)
                             <option value="{{ $student[0]->id }}">{{ $student[0]->second_name }}
