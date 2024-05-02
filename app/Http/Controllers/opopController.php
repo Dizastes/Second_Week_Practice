@@ -244,19 +244,28 @@ class opopController extends Controller
             'director_pr_id' => $director_pr_id->id, 'director_or_id' => $director_or_id->id
         ]);
 
-        foreach ($groups as $group) {
-            $students = Student::where('group_id', $group)->get();
-            foreach ($students as $student) {
-                PractStudent::updateOrCreate(
-                    ['pract_id' => $pract->id, 'student_id' => $student->id],
-                    ['pract_id' => $pract->id, 'student_id' => $student->id]
+        $gr_temp = PractGroup::where('pract_id', $pract->id)->get();
+        foreach ($gr_temp as $t) {
+            if (!in_array($t->group_id, $groups === null ? [] : $groups)) {
+                $t->delete();
+            }
+        }
+        if ($groups !== null) {
+            foreach ($groups as $group) {
+                $students = Student::where('group_id', $group)->get();
+                foreach ($students as $student) {
+                    PractStudent::updateOrCreate(
+                        ['pract_id' => $pract->id, 'student_id' => $student->id],
+                        ['pract_id' => $pract->id, 'student_id' => $student->id]
+                    );
+                }
+                PractGroup::updateOrCreate(
+                    ['pract_id' => $pract->id, 'group_id' => $group],
+                    ['pract_id' => $pract->id, 'group_id' => $group]
                 );
             }
-            PractGroup::updateOrCreate(
-                ['pract_id' => $pract->id, 'group_id' => $group],
-                ['pract_id' => $pract->id, 'group_id' => $group]
-            );
         }
+
 
         return redirect('opop');
     }
