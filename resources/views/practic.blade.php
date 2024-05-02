@@ -28,7 +28,7 @@
                 </div>
                 <div class="container_admin">
                     <h2>Выбрать студента</h2>
-                    <select id='select-student' name="student[]" placeholder="Студент" multiple>
+                    <select id='select-student' name="student" placeholder="Студент" multiple>
                         <option value=""></option>
                         @foreach ($students as $student)
                             <option value="{{ $student[0]->id }}">{{ $student[0]->second_name }}
@@ -59,14 +59,6 @@
                         <option value="4">4</option>
                         <option value="5">5</option>
                     </select>
-                </div>
-                <div class="container_admin">
-                    <h2>Производственные задачи</h2>
-                    <label class="input-file">
-                        <span class="input-file-text" type="text"></span>
-                        <input type="file" name="file">
-                        <span class="input-file-btn">Выберите файл</span>
-                    </label>
                 </div>
                 <div class="container_admin">
                     <h2>Качества</h2>
@@ -129,11 +121,6 @@
                     text: input,
                 };
             }
-        });
-
-        $('.input-file input[type=file]').on('change', function() {
-            let file = this.files[0];
-            $(this).closest('.input-file').find('.input-file-text').html(file.name);
         });
 
         $("#select-mark").change(function() {
