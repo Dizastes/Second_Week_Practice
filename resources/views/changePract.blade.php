@@ -75,7 +75,7 @@
                             <small>дата начала практики</small>
                         </div>
                         <div class="small_info">
-                            <input type="date" name='end' value='{{ $selected['begin'] }}'>
+                            <input type="date" name='end' value='{{ $selected['end'] }}'>
                             <small>дата окончания практики</small>
                         </div>
                         <div class="small_info">
@@ -112,7 +112,7 @@
                     <div class="direct">
                         <div class="container_admin">
                             <h2>Руководитель от ВУЗа</h2>
-                            <select id='select-state' name="dir_university">
+                            <select id='select-dir-1' name="dir_university">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
                                     <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
@@ -121,7 +121,7 @@
                         </div>
                         <div class="container_admin">
                             <h2>Руководитель от предприятия</h2>
-                            <select id='select-state' name="dir_p">
+                            <select id='select-dir-2' name="dir_p">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
                                     <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
@@ -130,7 +130,7 @@
                         </div>
                         <div class="container_admin">
                             <h2>Руководитель от организации</h2>
-                            <select id='select-state' name="dir_o">
+                            <select id='select-dir-3' name="dir_o">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
                                     <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
@@ -139,7 +139,7 @@
                         </div>
                         <div class="container_admin">
                             <h2>Руководитель практики</h2>
-                            <select id='select-state' name="dir_practise">
+                            <select id='select-dir-4' name="dir_practise">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
                                     <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>

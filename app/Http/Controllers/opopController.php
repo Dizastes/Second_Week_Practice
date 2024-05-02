@@ -78,6 +78,30 @@ class opopController extends Controller
         $order = Order::where('pract_id', $pract_id)->first();
         $selected['order_number'] = $order->number;
         $selected['date'] = $order->date;
+        $selected['groups'] = [];
+        $place = Place::where('id', $pract->place_id)->first();
+        if (!isset($place->name)) {
+            $selected['n'] = '';
+            $selected['city'] = '';
+            $selected['address'] = '';
+            $selected['director_1'] = '';
+            $selected['director_2'] = '';
+            $selected['director_3'] = '';
+            $selected['director_4'] = '';
+        } else {
+            $selected['n'] = $place->name;
+            $selected['city'] = $place->city;
+            $selected['address'] = $place->address;
+            $selected['director_1'] = $pract->director_id;
+            $selected['director_2'] = $pract->director_ugu_id;
+            $selected['director_3'] = $pract->director_pr_id;
+            $selected['director_4'] = $pract->director_or_id;
+        }
+
+        $groupTemp = PractGroup::where('pract_id', $pract->id)->get();
+        foreach ($groupTemp as $t) {
+            array_push($selected['groups'], $t->group_id);
+        }
 
         $agreement_type = AgreementType::all();
         $types = Type::all();
@@ -185,17 +209,21 @@ class opopController extends Controller
         $city = $request->input('city');
         $address = $request->input('address');
 
-        $place = Place::updateOrCreate(['id'=>$pract->place_id], ['name' => $name, 'city' => $city, 'address' => $address]);
+        $place = Place::updateOrCreate(['id' => $pract->place_id], ['name' => $name, 'city' => $city, 'address' => $address]);
         $dir_university = $request->input('dir_university');
         $dir_p = $request->input('dir_p');
         $dir_o = $request->input('dir_o');
         $dir_practise = $request->input('dir_practise');
-        $director_id = director::where('id', $dir_university)->first()->setAttribute('responsibillity', 0)->save();
-        $director_pr_id = director::where('id', $dir_p)->first()->setAttribute('responsibillity', 1)->save();
-        $director_or_id = director::where('id', $dir_o)->first()->setAttribute('responsibillity', 2)->save();
+        $director_id = director::where('id', $dir_university)->first()->setAttribute('responsibillity', 0);
+        $director_id->save();
+        $director_pr_id = director::where('id', $dir_p)->first()->setAttribute('responsibillity', 1);
+        $director_pr_id->save();
+        $director_or_id = director::where('id', $dir_o)->first()->setAttribute('responsibillity', 2);
+        $director_or_id->save();
         $money = $request->input('money');
         $agreement_id = $request->input('agreement');
-        $director_ugu_id = director::where('id', $dir_practise)->first()->setAttribute('responsibillity', 3)->save();
+        $director_ugu_id = director::where('id', $dir_practise)->first()->setAttribute('responsibillity', 3);
+        $director_ugu_id->save();
 
         $new_agreement = Agreement::updateOrCreate([
             'id' => $pract->agreement_id
@@ -212,8 +240,8 @@ class opopController extends Controller
         $end = $request->input('end');
         $pract->update([
             'name' => $pract_name, 'agreement_id' => $new_agreement->id, 'money' => ($money == 'on') ? true : false, 'type_id' => $type, 'view_id' => $view, 'year' => $year,
-            'place_id' => $place->id, 'date_begin' => $begin, 'date_end' => $end, 'order_id' => $order->id, 'director_id' => $director_id, 'director_ugu_id' => $director_ugu_id,
-            'director_pr_id' => $director_pr_id, 'director_or_id' => $director_or_id
+            'place_id' => $place->id, 'date_begin' => $begin, 'date_end' => $end, 'order_id' => $order->id, 'director_id' => $director_id->id, 'director_ugu_id' => $director_ugu_id->id,
+            'director_pr_id' => $director_pr_id->id, 'director_or_id' => $director_or_id->id
         ]);
 
         foreach ($groups as $group) {
@@ -224,8 +252,10 @@ class opopController extends Controller
                     ['pract_id' => $pract->id, 'student_id' => $student->id]
                 );
             }
-            PractGroup::updateOrCreate(['pract_id' => $pract->id, 'group_id' => $group],
-            ['pract_id' => $pract->id, 'group_id' => $group]);
+            PractGroup::updateOrCreate(
+                ['pract_id' => $pract->id, 'group_id' => $group],
+                ['pract_id' => $pract->id, 'group_id' => $group]
+            );
         }
 
         return redirect('opop');
