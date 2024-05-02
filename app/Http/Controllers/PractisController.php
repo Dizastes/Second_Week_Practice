@@ -71,39 +71,6 @@ class PractisController extends Controller
 	        'complete' => ($complete == 'on') ? true : false,
     	]);
 
-    	$file = $request->file('file');
-		$handle = fopen($file, "r");
-		// Получаем заголовки столбцов
-		$headers = fgetcsv($handle, 1000, ",");
-		if ($handle !== FALSE) {
-		  while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-		    // $data содержит массив значений строки CSV
-		    // Создаем ассоциативный массив, используя заголовки столбцов
-		    $row = array_combine($headers, $data);
-		    // Делайте что-то с $row, например, добавляйте его в другой массив
-		    $csvRows[] = $row;
-		  }
-		  fclose($handle);
-		}
-		// $csvRows теперь содержит все строки CSV в виде массива ассоциативных массивов
-		foreach ($csvRows as $row) {
-		  	$subject = $row['Subject'];
-		  	$date = $row['Start date'];
-
-		  	$date = str_replace(' ', '', $date);
-			$date = str_replace('/', '', $date);
-
-			$dateFormat = "dmY";
-			$date = \DateTime::createFromFormat($dateFormat, $date);
-
-		  	Task::create([
-		  		'task' => $subject,
-		  		'date' => $date->format('Y-m-d'),
-		  		'pract_student_id' => $new_pract_student->id,
-		  		'pract_id' => $practic_id
-		  	]);
-		}
-
     	foreach ($characteristics_list as $charact) {
     		PractCharacteristic::create([
     			'pract_id' => $new_pract_student->id,
