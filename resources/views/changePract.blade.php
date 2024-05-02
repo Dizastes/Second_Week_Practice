@@ -23,7 +23,7 @@
                             <select multiple id='select-group' name="group[]" style="margin:0" placeholder="группа">
                                 <option value=""></option>
                                 @foreach ($groups as $group)
-                                    <option value="{{ $group->id }}">{{ $group->name }}</option>
+                                    <option {{in_array($group->id,$selected['groups']) ? 'selected' : ''}} value="{{ $group->id }}">{{ $group->name }}</option>
                                 @endforeach
                             </select>
                             <small>Выберите группы</small>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="section">
                         <div class="small_info"> <input type="text" name='pract_name' placeholder="Наименование"
-                                value="{{ $selected['type'] }}">
+                                value="{{ $selected['name'] }}">
                             <small>Название практики</small>
                         </div>
                         <div class="small_info">
@@ -94,15 +94,15 @@
                     </div>
                     <div class="section">
                         <div class="small_info">
-                            <input type="text" name='name' placeholder="Наименование">
+                            <input type="text" name='name' placeholder="Наименование" value="{{$selected['n']}}">
                             <small>Наименование</small>
                         </div>
                         <div class="small_info">
-                            <input type="text" name='city' placeholder="Город">
+                            <input type="text" name='city' placeholder="Город" value="{{$selected['city']}}">
                             <small>Город</small>
                         </div>
                         <div class="small_info">
-                            <input type="text" name='address' placeholder="Адрес">
+                            <input type="text" name='address' placeholder="Адрес" value="{{$selected['address']}}">
                             <small>Адрес</small>
                         </div>
                     </div>
@@ -172,6 +172,22 @@
     var $select = $('#select-agreement').selectize();
     var selectize = $select[0].selectize;
     selectize.setValue('{{ $selected['agreement'] }}');
+
+    var $select = $('#select-dir-1').selectize();
+    var selectize = $select[0].selectize;
+    selectize.setValue('{{$selected['director_1']}}');
+
+    var $select = $('#select-dir-2').selectize();
+    var selectize = $select[0].selectize;
+    selectize.setValue('{{$selected['director_2']}}');
+
+    var $select = $('#select-dir-3').selectize();
+    var selectize = $select[0].selectize;
+    selectize.setValue('{{$selected['director_3']}}');
+
+    var $select = $('#select-dir-4').selectize();
+    var selectize = $select[0].selectize;
+    selectize.setValue('{{$selected['director_4']}}');
 </script>
 
 </html>
