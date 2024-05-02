@@ -12,6 +12,7 @@ class Order extends Model
     protected $table = "orderr";
 
     protected $fillable = [
+        'pract_id',
         'number',
         'date'
     ];

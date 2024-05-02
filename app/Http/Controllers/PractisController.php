@@ -33,8 +33,6 @@ class PractisController extends Controller
 			$students_list[] = $student;
 		}
 
-		$agreement_type = AgreementType::all();
-
 		$practics = Practic::all();
 
 		$characteristics = Characteristics::all();
@@ -47,7 +45,7 @@ class PractisController extends Controller
 
 		$reasons = Reason::all();
 
-		return view('practic', ['students' => $students_list, 'agreement' => $agreement_type, 'practics' => $practics, 'characteristics' => $characteristics, 'volumes' => $volumes, 'remarks' => $remarks, 'problems' => $problems, 'reasons' => $reasons]);
+		return view('practic', ['students' => $students_list, 'practics' => $practics, 'characteristics' => $characteristics, 'volumes' => $volumes, 'remarks' => $remarks, 'problems' => $problems, 'reasons' => $reasons]);
 	}
 
 
@@ -55,8 +53,6 @@ class PractisController extends Controller
 	{
 		$practic_id = $request->input('practic');
 		$student_id = $request->input('student');
-		$agreement_id = $request->input('agreement');
-		$money = $request->input('money');
 		$complete = $request->input('complete');
 		$mark = $request->input('mark');
 		$characteristics_list = $request->input('characteristics');
@@ -65,59 +61,15 @@ class PractisController extends Controller
 		$problem_list = $request->input('problem');
 		$reason = $request->input('reason');
 
-
-		if (PractStudent::where('student_id', $student_id)->exists()) {
-			return response()->json('Такой студент уже есть в базе', 400);
-		}
-
-		$new_agreement = Agreement::create([
-			'type_id' => $agreement_id
-		]);
-
 		$new_pract_student = PractStudent::create([
 			'pract_id' => $practic_id,
 			'student_id' => $student_id,
-			'agreement_id' => $new_agreement->id,
 			'task_id' => null,
 			'volume_id' => $volume_id,
 			'mark' => $mark,
-			'money' => ($money == 'on') ? true : false,
 			'reason_id' => $reason,
 			'complete' => ($complete == 'on') ? true : false,
 		]);
-
-		$file = $request->file('file');
-		$handle = fopen($file, "r");
-		// Получаем заголовки столбцов
-		$headers = fgetcsv($handle, 1000, ",");
-		if ($handle !== FALSE) {
-			while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-				// $data содержит массив значений строки CSV
-				// Создаем ассоциативный массив, используя заголовки столбцов
-				$row = array_combine($headers, $data);
-				// Делайте что-то с $row, например, добавляйте его в другой массив
-				$csvRows[] = $row;
-			}
-			fclose($handle);
-		}
-		// $csvRows теперь содержит все строки CSV в виде массива ассоциативных массивов
-		foreach ($csvRows as $row) {
-			$subject = $row['Subject'];
-			$date = $row['Start date'];
-
-			$date = str_replace(' ', '', $date);
-			$date = str_replace('/', '', $date);
-
-			$dateFormat = "dmY";
-			$date = \DateTime::createFromFormat($dateFormat, $date);
-
-			Task::create([
-				'task' => $subject,
-				'date' => $date->format('Y-m-d'),
-				'pract_student_id' => $new_pract_student->id,
-				'pract_id' => $practic_id
-			]);
-		}
 
 		foreach ($characteristics_list as $charact) {
 			PractCharacteristic::create([

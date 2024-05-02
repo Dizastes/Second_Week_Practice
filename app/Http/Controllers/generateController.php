@@ -29,13 +29,12 @@ use morphos\Russian\GeographicalNamesInflection;
 
 class generateController extends Controller
 {
-    public function getData($id)
+    public function getData($id, $pract_id)
     {
 
         $user = User::where('id', $id)->first();
         $student = Student::where('user_id', $id)->first();
-        $practStudent = PractStudent::where('student_id', $student->id)->latest()->first();
-        $pract_id = $practStudent->pract_id;
+        $practStudent = PractStudent::where('student_id', $student->id)->where('pract_id', $pract_id)->latest()->first();
         $pract = Practic::where('id', $pract_id)->first();
         $place = Place::where('id', $pract->place_id)->first();
         $group_id = $student->group_id;
@@ -122,9 +121,10 @@ class generateController extends Controller
 
     public function getWord(Request $request)
     {
-        // $token = explode(".", $request->cookie('Auth'));
-        // $id = json_decode(base64_decode($token[1]), true)['id'];
-        $info = $this->getData(2);
+        $token = explode(".", $request->cookie('Auth'));
+        $id = json_decode(base64_decode($token[1]), true)['id'];
+        $pract_id = $request->input('pract_id');
+        $info = $this->getData($id, $pract_id);
         $document = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('word\document.docx'));
         $phpWord = new PhpWord();
         $uploadDir = __DIR__;

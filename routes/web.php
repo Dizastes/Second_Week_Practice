@@ -7,6 +7,7 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\generateController;
 use App\Http\Controllers\PractisController;
 use App\Http\Controllers\opopController;
+use App\Http\Controllers\StudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +40,7 @@ Route::middleware(['login'])->group(function () {
 Route::middleware(['jwt'])->group(function () {
     Route::get('logout', [LoginController::class, "logout"]);
 });
+
 Route::post('createInstitute', [adminController::class, 'createInstitute']);
 
 Route::post('createDirection', [adminController::class, 'createDirection']);
@@ -59,7 +61,15 @@ Route::post('createGroup', [opopController::class, 'createGroup']);
 Route::post('giveCourse', [opopController::class, 'giveCourse']);
 Route::post('studentToGroup', [opopController::class, 'studentToGroup']);
 Route::post('createPract', [opopController::class, 'createPract']);
+Route::post('Pract', [opopController::class, 'getDataForChangePract']);
+Route::post('changePract', [opopController::class, 'changePract']);
 
 Route::post('addPractStudent', [PractisController::class, 'addPractStudent']);
 
 Route::get('Otchet', [generateController::class, 'getWord']);
+
+Route::get('student', [StudentController::class, 'getData'])->name('student');
+
+Route::post('download', [generateController::class, 'getWord']);
+
+Route::post('uploadfile', [StudentController::class, 'uploadFile']);

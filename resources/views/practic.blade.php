@@ -28,7 +28,7 @@
                 </div>
                 <div class="container_admin">
                     <h2>Выбрать студента</h2>
-                    <select id='select-student' name="student" placeholder="Студент">
+                    <select id='select-student' name="student[]" placeholder="Студент" multiple>
                         <option value=""></option>
                         @foreach ($students as $student)
                             <option value="{{ $student[0]->id }}">{{ $student[0]->second_name }}
@@ -36,19 +36,6 @@
                                 {{ $student[0]->third_name }}</option>
                         @endforeach
                     </select>
-                </div>
-                <div class="container_admin">
-                    <h2>Вид договора</h2>
-                    <select id='select-agreement' name="agreement" placeholder="Вид договора">
-                        <option value=""></option>
-                        @foreach ($agreement as $type)
-                            <option value="{{ $type->id }}">{{ $type->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="container_admin">
-                    <h2>Оплачиваемая ли</h2>
-                    <input type="checkbox" name="money">
                 </div>
                 <div class="container_admin">
                     <h2>Прошел ли практику</h2>
@@ -84,7 +71,7 @@
                 <div class="container_admin">
                     <h2>Качества</h2>
                     <select id='select-characteristics' name="characteristics[]" class="selectmore"
-                        placeholder="Качествва" multiple>
+                        placeholder="Качества человека" multiple>
                         <option value=""></option>
                         @foreach ($characteristics as $characteristic)
                             <option value="{{ $characteristic->id }}">{{ $characteristic->charact }}</option>
@@ -93,7 +80,7 @@
                 </div>
                 <div class="container_admin">
                     <h2>Объем выполнения</h2>
-                    <select id='select-volume' name="volume" placeholder="Объем">
+                    <select id='select-volume' class="volume" name="volume" placeholder="Объем выполнения">
                         <option value=""></option>
                         @foreach ($volumes as $volume)
                             <option value="{{ $volume->id }}">{{ $volume->volume }}</option>
@@ -111,8 +98,8 @@
                 </div>
                 <div class="container_admin">
                     <h2>Как справлялся с проблемами</h2>
-                    <select id='select-problem' name="problem[]" class="selectmore" placeholder="Спавлялся с проблемами"
-                        multiple>
+                    <select id='select-problem' name="problem[]" class="selectmore"
+                        placeholder="Справлялся с проблемами" multiple>
                         <option value=""></option>
                         @foreach ($problems as $problem)
                             <option value="{{ $problem->id }}">{{ $problem->name }}</option>
@@ -128,7 +115,7 @@
     <script>
         $(document).ready(function() {
             $('select').selectize({
-                sortField: 'text'
+                sortField: 'text',
             });
         });
 
@@ -148,6 +135,39 @@
             let file = this.files[0];
             $(this).closest('.input-file').find('.input-file-text').html(file.name);
         });
+
+        $("#select-mark").change(function() {
+            var tempMark = $(this).val();
+
+            switch (tempMark) {
+                case "2":
+                    $("#select-characteristics").selectize()[0].selectize.setValue([]);
+                    $(".volume")[0].selectize.setValue(3);
+                    $("#select-remarks").selectize()[0].selectize.setValue([1, 2, 3]);
+                    $("#select-problem").selectize()[0].selectize.setValue([3]);
+                    break;
+                case "3":
+                    $("#select-characteristics").selectize()[0].selectize.setValue([5]);
+                    $(".volume")[0].selectize.setValue(2);
+                    $("#select-remarks").selectize()[0].selectize.setValue([1, 2, 3]);
+                    $("#select-problem").selectize()[0].selectize.setValue([3]);
+                    break;
+                case "4":
+                    $("#select-characteristics").selectize()[0].selectize.setValue([1, 2, 3, 4]);
+                    $(".volume")[0].selectize.setValue(1);
+                    $("#select-remarks").selectize()[0].selectize.setValue([4]);
+                    $("#select-problem").selectize()[0].selectize.setValue([2, 4]);
+                    break;
+                case "5":
+                    $("#select-characteristics").selectize()[0].selectize.setValue([1, 2, 3, 4, 5, 6, 7, 8]);
+                    $(".volume")[0].selectize.setValue(4);
+                    $("#select-remarks").selectize()[0].selectize.setValue([4]);
+                    $("#select-problem").selectize()[0].selectize.setValue([1, 2, 4]);
+                    break;
+                default:
+                    break;
+            }
+        })
     </script>
 </body>
 
