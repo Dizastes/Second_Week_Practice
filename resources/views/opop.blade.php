@@ -19,7 +19,7 @@
                     <select id='select-state' name="direction" placeholder="программа">
                         <option value=""></option>
                         @foreach ($directiones as $direction)
-                            <option value="{{ $direction->id }}">{{ $direction->name }}</option>
+                        <option value="{{ $direction->id }}">{{ $direction->name }}</option>
                         @endforeach
                     </select>
                     <input type="text" name='name' placeholder="номер группы">
@@ -33,7 +33,7 @@
                     <select id='select-state' name="group" placeholder="группа">
                         <option value=""></option>
                         @foreach ($groups as $group)
-                            <option value="{{ $group->id }}">{{ $group->name }}</option>
+                        <option value="{{ $group->id }}">{{ $group->name }}</option>
                         @endforeach
                     </select>
                     <select id='select-state' name="course" placeholder="курс">
@@ -53,14 +53,15 @@
                     <select id='select-state' name="group" placeholder="группа">
                         <option value=""></option>
                         @foreach ($groups as $group)
-                            <option value="{{ $group->id }}">{{ $group->name }}</option>
+                        <option value="{{ $group->id }}">{{ $group->name }}</option>
                         @endforeach
                     </select>
                     <select id='select-state' name="user" placeholder="Пользователь">
                         <option value=""></option>
                         @foreach ($users as $user)
-                            <option value="{{ $user->id }}">
-                                {{ $user->second_name . ' ' . $user->first_name . ' ' . $user->third_name }}</option>
+                        <option value="{{ $user->id }}">
+                            {{ $user->second_name . ' ' . $user->first_name . ' ' . $user->third_name }}
+                        </option>
                         @endforeach
                     </select>
 
@@ -72,10 +73,10 @@
                     @csrf
                     <div class="section">
                         <h1>Практика группы</h1>
-                        <select id='select-state' name="group" style="margin:0"placeholder="группа">
+                        <select id='select-state' name="group" style="margin:0" placeholder="группа">
                             <option value=""></option>
                             @foreach ($groups as $group)
-                                <option value="{{ $group->id }}">{{ $group->name }}</option>
+                            <option value="{{ $group->id }}">{{ $group->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -84,15 +85,28 @@
                         <select id='select-state' name="type" placeholder="тип">
                             <option value=""></option>
                             @foreach ($types as $type)
-                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                            <option value="{{ $type->id }}">{{ $type->name }}</option>
                             @endforeach
                         </select>
                         <select id='select-state' name="view" style="margin:0" placeholder="вид">
                             <option value=""></option>
                             @foreach ($views as $view)
-                                <option value="{{ $view->id }}">{{ $view->name }}</option>
+                            <option value="{{ $view->id }}">{{ $view->name }}</option>
                             @endforeach
                         </select>
+                    </div>
+                    <div class="container_admin">
+                        <h2>Вид договора</h2>
+                        <select id='select-agreement' name="agreement" placeholder="Вид договора">
+                            <option value=""></option>
+                            @foreach ($agreement as $type)
+                            <option value="{{ $type->id }}">{{ $type->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="container_admin">
+                        <h2>Оплачиваемая ли</h2>
+                        <input type="checkbox" name="money">
                     </div>
                     <div class="section more_info" style="margin-top:2.5%">
                         <input type="text" name='year' placeholder="Год">
@@ -127,7 +141,7 @@
                             <select id='select-state' name="dir_university">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
-                                    <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
+                                <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -136,7 +150,7 @@
                             <select id='select-state' name="dir_p">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
-                                    <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
+                                <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -145,7 +159,7 @@
                             <select id='select-state' name="dir_o">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
-                                    <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
+                                <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -154,7 +168,7 @@
                             <select id='select-state' name="dir_practise">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
-                                    <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
+                                <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -38,19 +38,6 @@
                     </select>
                 </div>
                 <div class="container_admin">
-                    <h2>Вид договора</h2>
-                    <select id='select-agreement' name="agreement" placeholder="Вид договора">
-                        <option value=""></option>
-                        @foreach ($agreement as $type)
-                            <option value="{{ $type->id }}">{{ $type->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="container_admin">
-                    <h2>Оплачиваемая ли</h2>
-                    <input type="checkbox" name="money">
-                </div>
-                <div class="container_admin">
                     <h2>Прошел ли практику</h2>
                     <input type="checkbox" name="complete">
                 </div>

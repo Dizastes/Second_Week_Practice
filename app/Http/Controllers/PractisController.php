@@ -34,8 +34,6 @@ class PractisController extends Controller
     		
     	}
 
-    	$agreement_type = AgreementType::all();
-
     	$practics = Practic::all();
 
     	$characteristics = Characteristics::all();
@@ -48,15 +46,13 @@ class PractisController extends Controller
 
     	$reasons = Reason::all();
 
-    	return view('practic', ['students' => $students_list, 'agreement' => $agreement_type, 'practics' => $practics, 'characteristics' => $characteristics, 'volumes' => $volumes, 'remarks' => $remarks, 'problems' => $problems, 'reasons' => $reasons]);
+    	return view('practic', ['students' => $students_list, 'practics' => $practics, 'characteristics' => $characteristics, 'volumes' => $volumes, 'remarks' => $remarks, 'problems' => $problems, 'reasons' => $reasons]);
     }
 
 
     public function addPractStudent(Request $request) {
     	$practic_id = $request->input('practic');
     	$student_id = $request->input('student');
-    	$agreement_id = $request->input('agreement');
-    	$money = $request->input('money');
     	$complete = $request->input('complete');
     	$mark = $request->input('mark');
     	$characteristics_list = $request->input('characteristics');
@@ -65,18 +61,12 @@ class PractisController extends Controller
     	$problem_list = $request->input('problem');
     	$reason = $request->input('reason');
 
-    	$new_agreement = Agreement::create([
-    		'type_id' => $agreement_id
-    	]);
-
     	$new_pract_student = PractStudent::create([
     		'pract_id' => $practic_id,
 	        'student_id' => $student_id,
-	        'agreement_id' => $new_agreement->id,
 	        'task_id' => null,
 	        'volume_id' => $volume_id,
 	        'mark' => $mark,
-	        'money' => ($money == 'on') ? true : false,
 	        'reason_id' => $reason,
 	        'complete' => ($complete == 'on') ? true : false,
     	]);

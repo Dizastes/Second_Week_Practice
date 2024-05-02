@@ -15,10 +15,8 @@ class PractStudent extends Model
         'id',
         'pract_id',
         'student_id',
-        'agreement_id',
         'volume_id',
         'mark',
-        'money',
         'reason_id',
         'complete',
     ];

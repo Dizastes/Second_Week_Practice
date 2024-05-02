@@ -9,12 +9,14 @@ use App\Models\direction;
 use App\Models\director;
 use App\Models\User;
 use App\Models\StudentGroup;
+use App\Models\AgreementType;
 use App\Models\Student;
 use App\Models\Type;
 use App\Models\View;
 use App\Models\Place;
 use App\Models\Practic;
 use App\Models\Order;
+use App\Models\Agreement;
 use Illuminate\Support\Arr;
 
 class opopController extends Controller
@@ -25,6 +27,7 @@ class opopController extends Controller
         $groups = StudentGroup::all();
         $usersTemp = User::all();
         $students = Student::all();
+        $agreement_type = AgreementType::all();
         $directorsTemp = director::all();
         $types = Type::all();
         $views = View::all();
@@ -45,7 +48,7 @@ class opopController extends Controller
             array_push($directors,['id'=>$director->id,'name'=>$name]);
         }
 
-        return view('opop', ['types'=>$types,'views'=>$views,'directiones' => $directiones, 'groups' => $groups,'users'=>$users,'directors'=>$directors]);
+        return view('opop', ['agreement' => $agreement_type,'types'=>$types,'views'=>$views,'directiones' => $directiones, 'groups' => $groups,'users'=>$users,'directors'=>$directors]);
     }
 
     public function createGroup(Request $request)
@@ -101,7 +104,13 @@ class opopController extends Controller
         $director_id = director::where('id', $dir_university)->first()->setAttribute('responsibillity', 0)->save();
         $director_pr_id = director::where('id', $dir_p)->first()->setAttribute('responsibillity', 1)->save();
         $director_or_id = director::where('id', $dir_o)->first()->setAttribute('responsibillity', 2)->save();
+        $money = $request->input('money');
+        $agreement_id = $request->input('agreement');
         $director_ugu_id = director::where('id', $dir_practise)->first()->setAttribute('responsibillity', 3)->save();
+
+        $new_agreement = Agreement::create([
+    		'type_id' => $agreement_id
+    	]);
 
         $group = $request->input('group');
         $pract_name = $request->input('pract_name');
@@ -110,7 +119,7 @@ class opopController extends Controller
         $year = $request->input('year');
         $begin = $request->input('begin');
         $end = $request->input('end');
-        Practic::create(['name'=>$pract_name,'type_id'=>$type,'view_id'=>$view,'group_id'=>$group,'year'=>$year,
+        Practic::create(['name'=>$pract_name,'agreement_id' => $new_agreement->id,'money' => ($money == 'on') ? true : false,'type_id'=>$type,'view_id'=>$view,'group_id'=>$group,'year'=>$year,
     'place_id'=>$place->id,'date_begin'=>$begin,'date_end'=>$end,'order_id'=>$order->id,'director_id'=>$director_id,'director_ugu_id'=>$director_ugu_id,
     'director_pr_id'=>$director_pr_id,'director_or_id'=>$director_or_id]);
         
