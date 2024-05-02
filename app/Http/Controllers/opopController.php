@@ -38,7 +38,7 @@ class opopController extends Controller
         $usersTemp = User::all();
         $students = Student::all();
         $agreement_type = AgreementType::all();
-        $directorsTemp = director::all();
+        $directorsTemp = director::where('responsibillity',null)->get();
         $types = Type::all();
         $views = View::all();
         $users = [];
