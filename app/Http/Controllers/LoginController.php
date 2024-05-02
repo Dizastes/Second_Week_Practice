@@ -44,6 +44,7 @@ class LoginController extends Controller
 	{
 		$minutes = \Config::get('jwt.ttl') * 24 * 7;
 		Cookie::queue('Auth', $token, $minutes);
+		
 		return redirect()->route('home');
 	}
 

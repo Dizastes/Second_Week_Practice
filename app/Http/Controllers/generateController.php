@@ -122,9 +122,9 @@ class generateController extends Controller
 
     public function getWord(Request $request)
     {
-        // $token = explode(".", $request->cookie('Auth'));
-        // $id = json_decode(base64_decode($token[1]), true)['id'];
-        $info = $this->getData(1);
+        $token = explode(".", $request->cookie('Auth'));
+        $id = json_decode(base64_decode($token[1]), true)['id'];
+        $info = $this->getData($id);
         $document = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('word\document.docx'));
         $phpWord = new PhpWord();
         $uploadDir = __DIR__;

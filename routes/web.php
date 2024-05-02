@@ -39,6 +39,7 @@ Route::middleware(['login'])->group(function () {
 Route::middleware(['jwt'])->group(function () {
     Route::get('logout', [LoginController::class, "logout"]);
 });
+
 Route::post('createInstitute', [adminController::class, 'createInstitute']);
 
 Route::post('createDirection', [adminController::class, 'createDirection']);
