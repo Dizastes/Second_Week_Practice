@@ -38,12 +38,14 @@ class StudentController extends Controller
     }
 
     public function uploadFile(Request $request) {
-    	
+
     	$token = explode(".", $request->cookie('Auth'));
         $user_id = json_decode(base64_decode($token[1]), true)['id'];
         $practic_id = $request->input('pract');
         $student_id = Student::where('user_id', $user_id)->get()[0]->id;
         $pract_student = PractStudent::where('pract_id',$practic_id)->where('student_id', $student_id)->get()[0];
+
+        Task::where('pract_student_id', $pract_student->id)->where('pract_id', $practic_id)->delete();
 
     	$file = $request->file('file');
 		$handle = fopen($file->path(), "r");

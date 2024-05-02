@@ -52,7 +52,8 @@ class PractisController extends Controller
 	public function addPractStudent(Request $request)
 	{
 		$practic_id = $request->input('practic');
-		$student_id = $request->input('student');
+		$user_id = $request->input('student');
+		$student_id = Student::where('user_id', $user_id)->get()[0];
 		$complete = $request->input('complete');
 		$mark = $request->input('mark');
 		$characteristics_list = $request->input('characteristics');
@@ -61,33 +62,31 @@ class PractisController extends Controller
 		$problem_list = $request->input('problem');
 		$reason = $request->input('reason');
 
-		$new_pract_student = PractStudent::create([
-			'pract_id' => $practic_id,
-			'student_id' => $student_id,
-			'task_id' => null,
-			'volume_id' => $volume_id,
-			'mark' => $mark,
-			'reason_id' => $reason,
-			'complete' => ($complete == 'on') ? true : false,
-		]);
+		$pract_student = PractStudent::where('pract_id', $practic_id)->where('student_id', $student_id->id)->get()[0];
+		
+		$pract_student->volume_id = $volume_id;
+		$pract_student->mark = $mark;
+		$pract_student->complete = ($complete == 'on') ? true : false;
+		$pract_student->reason_id = $reason;
+		$pract_student->save();
 
 		foreach ($characteristics_list as $charact) {
 			PractCharacteristic::create([
-				'pract_id' => $new_pract_student->id,
+				'pract_id' => $pract_student->id,
 				'characteristic_id' => $charact
 			]);
 		}
 
 		foreach ($remarks_list as $remark) {
 			PractRemark::create([
-				'pract_id' => $new_pract_student->id,
+				'pract_id' => $pract_student->id,
 				'remark_id' => $remark
 			]);
 		}
 
 		foreach ($problem_list as $problem) {
 			PractProblem::create([
-				'pract_id' => $new_pract_student->id,
+				'pract_id' => $pract_student->id,
 				'problem_id' => $problem
 			]);
 		}
