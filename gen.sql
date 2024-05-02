@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 01 2024 г., 19:34
+-- Время создания: Май 02 2024 г., 11:02
 -- Версия сервера: 8.0.30
 -- Версия PHP: 8.1.9
 
@@ -39,7 +39,9 @@ CREATE TABLE `agreement` (
 --
 
 INSERT INTO `agreement` (`id`, `type_id`, `created_at`, `updated_at`) VALUES
-(14, 1, '2024-05-01', '2024-05-01');
+(14, 1, '2024-05-01', '2024-05-01'),
+(15, 1, '2024-05-02', '2024-05-02'),
+(16, 1, '2024-05-02', '2024-05-02');
 
 -- --------------------------------------------------------
 
@@ -110,8 +112,8 @@ CREATE TABLE `director` (
 --
 
 INSERT INTO `director` (`id`, `post`, `updated_at`, `created_at`, `user_id`, `responsibillity`) VALUES
-(18, 'микроклоп', '2024-05-01', '2024-05-01', 1, 3),
-(19, 'Микроклоп', '2024-05-01', '2024-05-01', 1, NULL);
+(18, 'микроклоп', '2024-05-02', '2024-05-01', 1, 2),
+(19, 'Микроклоп', '2024-05-02', '2024-05-01', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -164,7 +166,9 @@ CREATE TABLE `orderr` (
 --
 
 INSERT INTO `orderr` (`id`, `number`, `date`, `created_at`, `updated_at`) VALUES
-(7, '52', '2024-05-04', '2024-05-01', '2024-05-01');
+(7, '52', '2024-05-04', '2024-05-01', '2024-05-01'),
+(8, '5252', '2024-05-06', '2024-05-02', '2024-05-02'),
+(9, '5252', '2024-05-06', '2024-05-02', '2024-05-02');
 
 -- --------------------------------------------------------
 
@@ -186,7 +190,9 @@ CREATE TABLE `place` (
 --
 
 INSERT INTO `place` (`id`, `name`, `address`, `city`, `created_at`, `updated_at`) VALUES
-(6, 'Югорский Государственный Университет', 'Чехова 16', 'Ханты-Мансийск', '2024-05-01', '2024-05-01');
+(6, 'Югорский Государственный Университет', 'Чехова 16', 'Ханты-Мансийск', '2024-05-01', '2024-05-01'),
+(7, 'ЮГУ', 'Чехова 17', 'Ханты', '2024-05-02', '2024-05-02'),
+(8, 'ЮГУ', 'Чехова 17', 'Ханты', '2024-05-02', '2024-05-02');
 
 -- --------------------------------------------------------
 
@@ -210,15 +216,18 @@ CREATE TABLE `pract` (
   `updated_at` date DEFAULT NULL,
   `director_pr_id` int NOT NULL,
   `director_or_id` int NOT NULL,
-  `year` int NOT NULL
+  `year` int NOT NULL,
+  `agreement_id` int NOT NULL,
+  `money` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `pract`
 --
 
-INSERT INTO `pract` (`id`, `name`, `type_id`, `view_id`, `group_id`, `place_id`, `date_begin`, `date_end`, `order_id`, `director_id`, `director_ugu_id`, `created_at`, `updated_at`, `director_pr_id`, `director_or_id`, `year`) VALUES
-(2, 'Кукмбер', 4, 2, 1, 6, '2024-05-02', '2024-05-03', 7, 1, 1, '2024-05-01', '2024-05-01', 1, 1, 1111);
+INSERT INTO `pract` (`id`, `name`, `type_id`, `view_id`, `group_id`, `place_id`, `date_begin`, `date_end`, `order_id`, `director_id`, `director_ugu_id`, `created_at`, `updated_at`, `director_pr_id`, `director_or_id`, `year`, `agreement_id`, `money`) VALUES
+(2, 'Кукмбер', 4, 2, 1, 6, '2024-05-02', '2024-05-03', 7, 1, 1, '2024-05-01', '2024-05-01', 1, 1, 1111, 0, 0),
+(3, 'gfdgd', 4, 2, 1, 8, '2024-05-04', '2024-05-05', 9, 1, 1, '2024-05-02', '2024-05-02', 1, 1, 432, 16, 1);
 
 -- --------------------------------------------------------
 
@@ -241,7 +250,16 @@ CREATE TABLE `pract_characteristic` (
 INSERT INTO `pract_characteristic` (`id`, `pract_id`, `characteristic_id`, `updated_at`, `created_at`) VALUES
 (29, 12, 7, '2024-05-01', '2024-05-01'),
 (30, 12, 8, '2024-05-01', '2024-05-01'),
-(31, 12, 4, '2024-05-01', '2024-05-01');
+(31, 12, 4, '2024-05-01', '2024-05-01'),
+(32, 13, 7, '2024-05-02', '2024-05-02'),
+(33, 13, 9, '2024-05-02', '2024-05-02'),
+(34, 13, 3, '2024-05-02', '2024-05-02'),
+(35, 13, 8, '2024-05-02', '2024-05-02'),
+(36, 13, 1, '2024-05-02', '2024-05-02'),
+(37, 13, 4, '2024-05-02', '2024-05-02'),
+(38, 13, 2, '2024-05-02', '2024-05-02'),
+(39, 13, 6, '2024-05-02', '2024-05-02'),
+(40, 13, 5, '2024-05-02', '2024-05-02');
 
 -- --------------------------------------------------------
 
@@ -265,7 +283,11 @@ INSERT INTO `pract_problem` (`id`, `pract_id`, `problem_id`, `updated_at`, `crea
 (9, 12, 2, '2024-05-01', '2024-05-01'),
 (10, 12, 4, '2024-05-01', '2024-05-01'),
 (11, 12, 1, '2024-05-01', '2024-05-01'),
-(12, 12, 3, '2024-05-01', '2024-05-01');
+(12, 12, 3, '2024-05-01', '2024-05-01'),
+(13, 13, 4, '2024-05-02', '2024-05-02'),
+(14, 13, 2, '2024-05-02', '2024-05-02'),
+(15, 13, 1, '2024-05-02', '2024-05-02'),
+(16, 13, 3, '2024-05-02', '2024-05-02');
 
 -- --------------------------------------------------------
 
@@ -287,7 +309,8 @@ CREATE TABLE `pract_remark` (
 
 INSERT INTO `pract_remark` (`id`, `pract_id`, `remark_id`, `updated_at`, `created_at`) VALUES
 (10, 12, 4, '2024-05-01', '2024-05-01'),
-(11, 12, 1, '2024-05-01', '2024-05-01');
+(11, 12, 1, '2024-05-01', '2024-05-01'),
+(12, 13, 4, '2024-05-02', '2024-05-02');
 
 -- --------------------------------------------------------
 
@@ -299,10 +322,8 @@ CREATE TABLE `pract_student` (
   `id` int NOT NULL,
   `pract_id` int NOT NULL,
   `student_id` int NOT NULL,
-  `agreement_id` int NOT NULL,
   `volume_id` int NOT NULL,
   `mark` int NOT NULL,
-  `money` tinyint(1) NOT NULL,
   `reason_id` int DEFAULT NULL,
   `complete` tinyint(1) NOT NULL,
   `updated_at` date NOT NULL,
@@ -313,8 +334,9 @@ CREATE TABLE `pract_student` (
 -- Дамп данных таблицы `pract_student`
 --
 
-INSERT INTO `pract_student` (`id`, `pract_id`, `student_id`, `agreement_id`, `volume_id`, `mark`, `money`, `reason_id`, `complete`, `updated_at`, `created_at`) VALUES
-(12, 2, 1, 14, 1, 5, 1, NULL, 1, '2024-05-01', '2024-05-01');
+INSERT INTO `pract_student` (`id`, `pract_id`, `student_id`, `volume_id`, `mark`, `reason_id`, `complete`, `updated_at`, `created_at`) VALUES
+(12, 2, 1, 1, 5, NULL, 1, '2024-05-01', '2024-05-01'),
+(13, 3, 1, 1, 4, NULL, 1, '2024-05-02', '2024-05-02');
 
 -- --------------------------------------------------------
 
@@ -485,7 +507,11 @@ INSERT INTO `task` (`id`, `task`, `date`, `updated_at`, `created_at`, `pract_stu
 (21, 'Front-end регистрации/авторизации', '2024-04-24', '2024-05-01', '2024-05-01', 12, 2),
 (22, 'Вывод заказов', '2024-04-23', '2024-05-01', '2024-05-01', 12, 2),
 (23, 'Front-end страницы курьера', '2024-04-23', '2024-05-01', '2024-05-01', 12, 2),
-(24, 'Front-end главной страницы', '2024-04-23', '2024-05-01', '2024-05-01', 12, 2);
+(24, 'Front-end главной страницы', '2024-04-23', '2024-05-01', '2024-05-01', 12, 2),
+(25, 'Front-end регистрации/авторизации', '2024-04-24', '2024-05-02', '2024-05-02', 13, 3),
+(26, 'Вывод заказов', '2024-04-23', '2024-05-02', '2024-05-02', 13, 3),
+(27, 'Front-end страницы курьера', '2024-04-23', '2024-05-02', '2024-05-02', 13, 3),
+(28, 'Front-end главной страницы', '2024-04-23', '2024-05-02', '2024-05-02', 13, 3);
 
 -- --------------------------------------------------------
 
@@ -720,7 +746,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `agreement`
 --
 ALTER TABLE `agreement`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблицы `direction`
@@ -744,43 +770,43 @@ ALTER TABLE `institute`
 -- AUTO_INCREMENT для таблицы `orderr`
 --
 ALTER TABLE `orderr`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT для таблицы `place`
 --
 ALTER TABLE `place`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT для таблицы `pract`
 --
 ALTER TABLE `pract`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_characteristic`
 --
 ALTER TABLE `pract_characteristic`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_problem`
 --
 ALTER TABLE `pract_problem`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_remark`
 --
 ALTER TABLE `pract_remark`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_student`
 --
 ALTER TABLE `pract_student`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT для таблицы `student`
@@ -798,7 +824,7 @@ ALTER TABLE `student_group`
 -- AUTO_INCREMENT для таблицы `task`
 --
 ALTER TABLE `task`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT для таблицы `users`
