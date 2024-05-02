@@ -38,7 +38,7 @@ class StudentController extends Controller
     }
 
     public function uploadFile(Request $request) {
-
+    	
     	$token = explode(".", $request->cookie('Auth'));
         $user_id = json_decode(base64_decode($token[1]), true)['id'];
         $practic_id = $request->input('pract');
