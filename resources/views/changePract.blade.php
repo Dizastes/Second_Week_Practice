@@ -22,12 +22,12 @@
                         <select multiple id='select-group' name="group[]" style="margin:0" placeholder="группа">
                             <option value=""></option>
                             @foreach ($groups as $group)
-                            <option value="{{ $group->id }}">{{ $group->name }}</option>
+                            <option {{in_array($group->id,$selected['groups']) ? 'selected' : ''}} value="{{ $group->id }}">{{ $group->name }}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="section">
-                        <input type="text" name='pract_name' placeholder="Наименование" value="{{$selected['type']}}">
+                        <input type="text" name='pract_name' placeholder="Наименование" value="{{$selected['name']}}">
                         <select id='select-type' name="type" placeholder="тип">
                             @foreach ($types as $type)
                             <option value="{{ $type->id }}">{{ $type->name }}</option>
@@ -60,7 +60,7 @@
                             <small>дата начала практики</small>
                         </div>
                         <div class="small_info">
-                            <input type="date" name='end' value='{{$selected['begin']}}'>
+                            <input type="date" name='end' value='{{$selected['end']}}'>
                             <small>дата окончания практики</small>
                         </div>
                         <div class="small_info">
@@ -73,9 +73,9 @@
                         <h1>Место практики</h1>
                     </div>
                     <div class="section">
-                        <input type="text" name='name' placeholder="Наименование">
-                        <input type="text" name='city' placeholder="Город">
-                        <input type="text" name='address' placeholder="Адрес">
+                        <input type="text" name='name' placeholder="Наименование" value='{{$selected['n']}}'>
+                        <input type="text" name='city' placeholder="Город" value='{{$selected['city']}}'>
+                        <input type="text" name='address' placeholder="Адрес" value='{{$selected['address']}}'>
                     </div>
                     <div class="section">
                         <h1>Руководители</h1>
@@ -83,7 +83,7 @@
                     <div class="direct">
                         <div class="container_admin">
                             <h2>Руководитель от ВУЗа</h2>
-                            <select id='select-state' name="dir_university">
+                            <select id='select-dir-1' name="dir_university">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
                                 <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
@@ -92,7 +92,7 @@
                         </div>
                         <div class="container_admin">
                             <h2>Руководитель от предприятия</h2>
-                            <select id='select-state' name="dir_p">
+                            <select id='select-dir-2' name="dir_p">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
                                 <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
@@ -101,7 +101,7 @@
                         </div>
                         <div class="container_admin">
                             <h2>Руководитель от организации</h2>
-                            <select id='select-state' name="dir_o">
+                            <select id='select-dir-3' name="dir_o">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
                                 <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
@@ -110,7 +110,7 @@
                         </div>
                         <div class="container_admin">
                             <h2>Руководитель практики</h2>
-                            <select id='select-state' name="dir_practise">
+                            <select id='select-dir-4' name="dir_practise">
                                 <option value=""></option>
                                 @foreach ($directors as $director)
                                 <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
@@ -143,6 +143,22 @@
     var $select = $('#select-agreement').selectize();
     var selectize = $select[0].selectize;
     selectize.setValue('{{$selected['agreement']}}');
+    
+    var $select = $('#select-dir-1').selectize();
+    var selectize = $select[0].selectize;
+    selectize.setValue('{{$selected['director_1']}}');
+
+    var $select = $('#select-dir-2').selectize();
+    var selectize = $select[0].selectize;
+    selectize.setValue('{{$selected['director_2']}}');
+
+    var $select = $('#select-dir-3').selectize();
+    var selectize = $select[0].selectize;
+    selectize.setValue('{{$selected['director_3']}}');
+
+    var $select = $('#select-dir-4').selectize();
+    var selectize = $select[0].selectize;
+    selectize.setValue('{{$selected['director_4']}}');
 
 </script>
 
