@@ -80,7 +80,7 @@ class opopController extends Controller
         $selected['date'] = $order->date;
         $selected['groups'] = [];
         $place = Place::where('id', $pract->place_id)->first();
-        if (!isset($selected['n'])) {
+        if (!isset($place->name)) {
             $selected['n'] = '';
             $selected['city'] = '';
             $selected['address'] = '';
