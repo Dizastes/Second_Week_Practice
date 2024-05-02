@@ -5,15 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class PractGroup extends Model
 {
     use HasFactory;
 
-    protected $table = "orderr";
+    protected $table = "pract_group";
 
     protected $fillable = [
         'pract_id',
-        'number',
-        'date'
+        'group_id',
     ];
 }

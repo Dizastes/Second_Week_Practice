@@ -69,16 +69,21 @@
                 </form>
             </div>
             <div>
+                <form action="Pract"  method='post'>
+                    @csrf
+                    <h1>Изменить практику</h1>
+                <select id='select-state' name="pract" placeholder="номер приказа">
+                            <option value=""></option>
+                            @foreach ($practics as $practic)
+                            <option value="{{ $practic['id'] }}">{{ $practic['order'] }}</option>
+                            @endforeach
+                        </select>
+                        <button type='submit'>Изменить</button>
+                </form>
                 <form action="createPract" method='post'>
                     @csrf
                     <div class="section">
                         <h1>Практика группы</h1>
-                        <select id='select-state' name="group" style="margin:0" placeholder="группа">
-                            <option value=""></option>
-                            @foreach ($groups as $group)
-                            <option value="{{ $group->id }}">{{ $group->name }}</option>
-                            @endforeach
-                        </select>
                     </div>
                     <div class="section">
                         <input type="text" name='pract_name' placeholder="Наименование">
@@ -123,55 +128,6 @@
                             <small>дата приказа</small>
                         </div>
                         <input type="text" name='order' placeholder="Номер приказа" style="margin:0">
-                    </div>
-                    <div class="section">
-                        <h1>Место практики</h1>
-                    </div>
-                    <div class="section">
-                        <input type="text" name='name' placeholder="Наименование">
-                        <input type="text" name='city' placeholder="Город">
-                        <input type="text" name='address' placeholder="Адрес">
-                    </div>
-                    <div class="section">
-                        <h1>Руководители</h1>
-                    </div>
-                    <div class="direct">
-                        <div class="container_admin">
-                            <h2>Руководитель от ВУЗа</h2>
-                            <select id='select-state' name="dir_university">
-                                <option value=""></option>
-                                @foreach ($directors as $director)
-                                <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="container_admin">
-                            <h2>Руководитель от предприятия</h2>
-                            <select id='select-state' name="dir_p">
-                                <option value=""></option>
-                                @foreach ($directors as $director)
-                                <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="container_admin">
-                            <h2>Руководитель от организации</h2>
-                            <select id='select-state' name="dir_o">
-                                <option value=""></option>
-                                @foreach ($directors as $director)
-                                <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="container_admin">
-                            <h2>Руководитель практики</h2>
-                            <select id='select-state' name="dir_practise">
-                                <option value=""></option>
-                                @foreach ($directors as $director)
-                                <option value="{{ $director['id'] }}">{{ $director['name'] }}</option>
-                                @endforeach
-                            </select>
-                        </div>
                     </div>
                     <div class="section">
                         <button type='submit' class="btn btn-primary">Сохранить практику</button>
