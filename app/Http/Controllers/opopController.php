@@ -42,27 +42,26 @@ class opopController extends Controller
         $usersTemp = User::all();
         $students = Student::all();
         $agreement_type = AgreementType::all();
-        $directorsTemp = director::where('responsibillity', null)->get();
+        $directors = director::all();
         $types = Type::all();
         $views = View::all();
         $users = [];
         $students_id = [];
+        $directors_id = [];
+
         foreach ($students as $student) {
             array_push($students_id, $student->user_id);
         }
+        foreach ($directors as $director) {
+            array_push($directors_id, $director->user_id);
+        }
         foreach ($usersTemp as $user) {
-            if (!in_array($user->id, $students_id)) {
+            if (!in_array($user->id, $students_id) and !in_array($user->id, $directors_id)) {
                 array_push($users, $user);
             }
         }
-        $directors = [];
-        foreach ($directorsTemp as $director) {
-            $user = User::where('id', $director->user_id)->first();
-            $name = $user->second_name . ' ' . $user->first_name . ' ' . $user->third_name;
-            array_push($directors, ['id' => $director->id, 'name' => $name]);
-        }
 
-        return view('opop', ['practics' => $practics, 'agreement' => $agreement_type, 'types' => $types, 'views' => $views, 'directiones' => $directiones, 'groups' => $groups, 'users' => $users, 'directors' => $directors]);
+        return view('opop', ['practics' => $practics, 'agreement' => $agreement_type, 'types' => $types, 'views' => $views, 'directiones' => $directiones, 'groups' => $groups, 'users' => $users]);
     }
 
     public function getDataForGroup(Request $request)
@@ -222,6 +221,16 @@ class opopController extends Controller
         return redirect('opop');
     }
 
+    public function addDirector(Request $request)
+    {
+        $user = $request->input('user');
+        $post = $request->input('post');
+
+        director::updateOrCreate(['user_id' => $user], ['user_id' => $user, 'post' => $post]);
+
+        return redirect('admin');
+    }
+
     public function createPract(Request $request)
     {
         $order_date = $request->input('date');
@@ -272,6 +281,11 @@ class opopController extends Controller
         $dir_practise = $request->input('dir_practise');
         $director_id = director::where('id', $dir_university)->first()->setAttribute('responsibillity', 0);
         $director_id->save();
+        $dir_user_id = $director_id->user_id;
+        $user = User::where('id', $dir_user_id)->first();
+        if ($user->role != 2) {
+            User::where('id', $dir_user_id)->setAttribute('role', 1)->save();
+        }
         $director_pr_id = director::where('id', $dir_p)->first()->setAttribute('responsibillity', 1);
         $director_pr_id->save();
         $director_or_id = director::where('id', $dir_o)->first()->setAttribute('responsibillity', 2);

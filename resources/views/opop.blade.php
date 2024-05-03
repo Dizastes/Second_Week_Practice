@@ -13,13 +13,28 @@
                 <h1>Руководитель ОПОП</h1>
             </div>
             <div>
+                <form action="addDirector" method="post">
+                    @csrf
+                    <h2>Добавить руководителя</h2>
+                    <select id='select-state' name="user" placeholder="руководитель">
+                        <option value=""></option>
+                        @foreach ($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->second_name . ' ' . $user->first_name . ' ' . $user->third_name }}</option>
+                        @endforeach
+                    </select>
+                    <input type="text" placeholder="Должность" name='post'>
+                    <button type="submit">+</button>
+                </form>
+
+            </div>
+            <div>
                 <form action="Pract" method='post'>
                     @csrf
                     <h1>Изменить практику</h1>
                     <select id='select-state' name="pract" placeholder="номер приказа">
                         <option value=""></option>
                         @foreach ($practics as $practic)
-                            <option value="{{ $practic['id'] }}">{{ $practic['order'] }}</option>
+                        <option value="{{ $practic['id'] }}">{{ $practic['order'] }}</option>
                         @endforeach
                     </select>
                     <button type='submit'>Изменить</button>
@@ -38,7 +53,7 @@
                             <select id='select-state' name="type" placeholder="тип">
                                 <option value=""></option>
                                 @foreach ($types as $type)
-                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                <option value="{{ $type->id }}">{{ $type->name }}</option>
                                 @endforeach
                             </select>
                             <small>Тип практики</small>
@@ -47,7 +62,7 @@
                             <select id='select-state' name="view" style="margin:0" placeholder="вид">
                                 <option value=""></option>
                                 @foreach ($views as $view)
-                                    <option value="{{ $view->id }}">{{ $view->name }}</option>
+                                <option value="{{ $view->id }}">{{ $view->name }}</option>
                                 @endforeach
                             </select>
                             <small>Вид практики</small>
@@ -58,7 +73,7 @@
                         <select id='select-agreement' name="agreement" placeholder="Вид договора">
                             <option value=""></option>
                             @foreach ($agreement as $type)
-                                <option value="{{ $type->id }}">{{ $type->name }}</option>
+                            <option value="{{ $type->id }}">{{ $type->name }}</option>
                             @endforeach
                         </select>
                     </div>

@@ -73,6 +73,7 @@
                             {{ $user->second_name . ' ' . $user->first_name . ' ' . $user->third_name }}</option>
                     @endforeach
                 </select>
+                <input type="text" name = 'post' placeholder="Должность">
                 <button>+</button>
             </form>
         </div>
