@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 02 2024 г., 15:26
+-- Время создания: Май 03 2024 г., 12:01
 -- Версия сервера: 8.0.30
 -- Версия PHP: 8.1.9
 
@@ -371,17 +371,18 @@ CREATE TABLE `pract_student` (
   `reason_id` int DEFAULT NULL,
   `complete` tinyint(1) DEFAULT NULL,
   `updated_at` date NOT NULL,
-  `created_at` date NOT NULL
+  `created_at` date NOT NULL,
+  `status` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `pract_student`
 --
 
-INSERT INTO `pract_student` (`id`, `pract_id`, `student_id`, `volume_id`, `mark`, `reason_id`, `complete`, `updated_at`, `created_at`) VALUES
-(12, 2, 1, 1, 5, NULL, 1, '2024-05-01', '2024-05-01'),
-(13, 3, 1, 1, 4, NULL, 1, '2024-05-02', '2024-05-02'),
-(14, 5, 1, NULL, NULL, NULL, NULL, '2024-05-02', '2024-05-02');
+INSERT INTO `pract_student` (`id`, `pract_id`, `student_id`, `volume_id`, `mark`, `reason_id`, `complete`, `updated_at`, `created_at`, `status`) VALUES
+(12, 2, 1, 1, 5, NULL, 1, '2024-05-03', '2024-05-01', 'Подтверждено'),
+(13, 3, 1, 1, 4, NULL, 1, '2024-05-03', '2024-05-02', 'Ожидает проверки'),
+(14, 5, 1, NULL, NULL, NULL, NULL, '2024-05-03', '2024-05-02', 'Ожидает проверки');
 
 -- --------------------------------------------------------
 
@@ -504,7 +505,8 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`id`, `user_id`, `group_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '2024-05-01', '2024-05-01');
+(1, 1, 1, '2024-05-01', '2024-05-01'),
+(2, 2, 1, '2024-05-03', '2024-05-03');
 
 -- --------------------------------------------------------
 
@@ -630,7 +632,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `second_name`, `third_name`, `role`, `login`, `password`, `updated_at`, `created_at`) VALUES
-(1, 'Никита', 'Заболотин', 'Сергеевич', 2, 'Inkashi', '$2y$12$.L1BCNqvNC4VIHUfzlbkze6Fy8O4azEu8aTevmF2fzrXMRGDHqboa', '2024-05-01', '2024-05-01');
+(1, 'Никита', 'Заболотин', 'Сергеевич', 2, 'Inkashi', '$2y$12$.L1BCNqvNC4VIHUfzlbkze6Fy8O4azEu8aTevmF2fzrXMRGDHqboa', '2024-05-01', '2024-05-01'),
+(2, 'Кирилл', 'Малых', 'Сергеевич', 1, 'lollipop', '$2y$12$xHUbzy9Fb.h3mnmrqtWrWeatl5JjJw.Xyfh8JUMphFT8bvxn5KOP2', '2024-05-03', '2024-05-03');
 
 -- --------------------------------------------------------
 
@@ -870,7 +873,7 @@ ALTER TABLE `pract_student`
 -- AUTO_INCREMENT для таблицы `student`
 --
 ALTER TABLE `student`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT для таблицы `student_group`
@@ -888,7 +891,7 @@ ALTER TABLE `task`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
