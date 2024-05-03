@@ -21,7 +21,7 @@ use App\Http\Controllers\confirmWord;
 */
 
 Route::get('/', function () {
-    return view('admin');
+    return redirect('login');
 });
 
 Route::middleware(['login'])->group(function () {

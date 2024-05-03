@@ -58,6 +58,12 @@ class generateController extends Controller
         $char = '';
         $howtocomplet = Volume::where('id', $practStudent->volume_id)->first()->volume;
 
+        $tasks = [];
+        $tasksTemp = explode(',', $practStudent->tasks);
+        foreach ($tasksTemp as $task) {
+            array_push($tasks, ['item'=>$task]);
+        }
+
         $characteristicId = PractCharacteristic::where('pract_id', $practStudent->id)->get();
         foreach ($characteristicId as $temp) {
             $tmp = Characteristics::where('id', $temp->characteristic_id)->first()->charact;
@@ -112,7 +118,7 @@ class generateController extends Controller
         $info['howtocomplet'] = $howtocomplet;
         $info['marks'] = $practStudent->mark;
         $info['errors'] = $errors;
-        $info['tasks'] = $errors;
+        $info['tasks'] = $tasks;
         $info['values'] = $values;
         $info['fullNameR'] = inflectName($info['fullName'], 'родительный');
         $info['fullNameD'] = inflectName($info['fullName'], 'дательный');
@@ -218,7 +224,7 @@ class generateController extends Controller
         }
 
         $document->cloneRowAndSetValues('date', $info['values']);
-        $document->cloneBlock('blocked', 0, true, false, $info['errors']);
+        $document->cloneBlock('blocked', 0, true, false, $info['tasks']);
         $document->cloneBlock('errors', 0, true, false, $info['errors']);
         $document->saveAs(storage_path($output));
         return response()->download(storage_path($output))->deleteFileAfterSend(true);
