@@ -61,14 +61,6 @@
                     </select>
                 </div>
                 <div class="container_admin">
-                    <h2>Производственные задачи</h2>
-                    <label class="input-file">
-                        <span class="input-file-text" type="text"></span>
-                        <input type="file" name="file">
-                        <span class="input-file-btn">Выберите файл</span>
-                    </label>
-                </div>
-                <div class="container_admin">
                     <h2>Качества</h2>
                     <select id='select-characteristics' name="characteristics[]" class="selectmore"
                         placeholder="Качества человека" multiple>
