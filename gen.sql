@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Май 03 2024 г., 13:32
+-- Время создания: Май 03 2024 г., 14:04
 -- Версия сервера: 8.0.30
 -- Версия PHP: 8.1.9
 
@@ -240,14 +240,14 @@ CREATE TABLE `pract_characteristic` (
 --
 
 INSERT INTO `pract_characteristic` (`id`, `pract_id`, `characteristic_id`, `updated_at`, `created_at`) VALUES
-(41, 15, 1, '2024-05-03', '2024-05-03'),
-(42, 15, 2, '2024-05-03', '2024-05-03'),
-(43, 15, 3, '2024-05-03', '2024-05-03'),
-(44, 15, 4, '2024-05-03', '2024-05-03'),
-(45, 15, 5, '2024-05-03', '2024-05-03'),
-(46, 15, 6, '2024-05-03', '2024-05-03'),
-(47, 15, 7, '2024-05-03', '2024-05-03'),
-(48, 15, 8, '2024-05-03', '2024-05-03');
+(61, 15, 1, '2024-05-03', '2024-05-03'),
+(62, 15, 2, '2024-05-03', '2024-05-03'),
+(63, 15, 3, '2024-05-03', '2024-05-03'),
+(64, 15, 4, '2024-05-03', '2024-05-03'),
+(65, 15, 5, '2024-05-03', '2024-05-03'),
+(66, 15, 6, '2024-05-03', '2024-05-03'),
+(67, 15, 7, '2024-05-03', '2024-05-03'),
+(68, 15, 8, '2024-05-03', '2024-05-03');
 
 -- --------------------------------------------------------
 
@@ -289,9 +289,9 @@ CREATE TABLE `pract_problem` (
 --
 
 INSERT INTO `pract_problem` (`id`, `pract_id`, `problem_id`, `updated_at`, `created_at`) VALUES
-(17, 15, 1, '2024-05-03', '2024-05-03'),
-(18, 15, 2, '2024-05-03', '2024-05-03'),
-(19, 15, 4, '2024-05-03', '2024-05-03');
+(26, 15, 1, '2024-05-03', '2024-05-03'),
+(27, 15, 2, '2024-05-03', '2024-05-03'),
+(28, 15, 4, '2024-05-03', '2024-05-03');
 
 -- --------------------------------------------------------
 
@@ -312,7 +312,7 @@ CREATE TABLE `pract_remark` (
 --
 
 INSERT INTO `pract_remark` (`id`, `pract_id`, `remark_id`, `updated_at`, `created_at`) VALUES
-(13, 15, 4, '2024-05-03', '2024-05-03');
+(17, 15, 4, '2024-05-03', '2024-05-03');
 
 -- --------------------------------------------------------
 
@@ -330,15 +330,16 @@ CREATE TABLE `pract_student` (
   `complete` tinyint(1) DEFAULT NULL,
   `updated_at` date NOT NULL,
   `created_at` date NOT NULL,
-  `status` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
+  `status` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+  `tasks` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `pract_student`
 --
 
-INSERT INTO `pract_student` (`id`, `pract_id`, `student_id`, `volume_id`, `mark`, `reason_id`, `complete`, `updated_at`, `created_at`, `status`) VALUES
-(15, 6, 3, 4, 5, NULL, 1, '2024-05-03', '2024-05-03', 'Подтверждено');
+INSERT INTO `pract_student` (`id`, `pract_id`, `student_id`, `volume_id`, `mark`, `reason_id`, `complete`, `updated_at`, `created_at`, `status`, `tasks`) VALUES
+(15, 6, 3, 4, 5, NULL, 1, '2024-05-03', '2024-05-03', 'Подтверждено', '234,234,234');
 
 -- --------------------------------------------------------
 
@@ -783,7 +784,7 @@ ALTER TABLE `pract`
 -- AUTO_INCREMENT для таблицы `pract_characteristic`
 --
 ALTER TABLE `pract_characteristic`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_group`
@@ -795,13 +796,13 @@ ALTER TABLE `pract_group`
 -- AUTO_INCREMENT для таблицы `pract_problem`
 --
 ALTER TABLE `pract_problem`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_remark`
 --
 ALTER TABLE `pract_remark`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT для таблицы `pract_student`

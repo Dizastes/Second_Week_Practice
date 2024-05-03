@@ -20,5 +20,6 @@ class PractStudent extends Model
         'reason_id',
         'complete',
         'status',
+        'tasks',
     ];
 }

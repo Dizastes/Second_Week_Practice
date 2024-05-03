@@ -84,3 +84,6 @@ Route::post('uploadfile', [StudentController::class, 'uploadFile']);
 Route::get('groups', [opopController::class, 'getDataForGroup']);
 Route::post('deleteGroup', [opopController::class, 'deleteGroup']);
 Route::post('addDirector', [opopController::class, 'addDirector']);
+
+
+Route::post('addStudentTask', [PractisController::class, 'addStudentTask']);

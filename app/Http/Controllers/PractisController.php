@@ -106,6 +106,11 @@ class PractisController extends Controller
 			]);
 		}
 
+		$tasks = $request->input('task');
+		$pract_student->tasks = $tasks;
+		$pract_student->save();
+
+
 		return redirect('practic');
 	}
 }

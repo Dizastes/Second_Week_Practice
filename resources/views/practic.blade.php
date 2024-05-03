@@ -98,6 +98,10 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="container_admin">
+                    <h2>Задачи</h2>
+                    <input type="text" name="task" placeholder="Задачи">
+                </div>
                 <div class="section">
                     <button type="submit" class="mybtn">Сохранить</button>
                 </div>
