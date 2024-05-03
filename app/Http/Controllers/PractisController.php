@@ -27,6 +27,10 @@ class PractisController extends Controller
 	{
 		$token = explode(".", $request->cookie('Auth'));
 		$user_id = json_decode(base64_decode($token[1]), true)['id'];
+		$user_role = json_decode(base64_decode($token[1]), true)['role'];
+		if ($user_role != 1) {
+			return redirect('/');
+		}
 
 		$director = director::where('user_id', $user_id)->get();
 		$practics = Practic::where('director_id', $director[0]->id)->get();

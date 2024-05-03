@@ -18,6 +18,10 @@ class StudentController extends Controller
 
 		$token = explode(".", $request->cookie('Auth'));
 		$user_id = json_decode(base64_decode($token[1]), true)['id'];
+        $user_role = json_decode(base64_decode($token[1]), true)['role'];
+        if ($user_role != 0) {
+        	return redirect('/');
+        }
 
 		$student = Student::where('user_id', $user_id)->get();
 		$group_id = $student[0]->group_id;
