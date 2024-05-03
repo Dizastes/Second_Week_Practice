@@ -24,6 +24,10 @@ use App\Models\PractProblem;
 use App\Models\PractRemark;
 use App\Models\PractStudent;
 use Illuminate\Support\Arr;
+use App\Http\Requests\AddDirectorRequest;
+use App\Http\Requests\PractRequest;
+use App\Http\Requests\CreatePractRequest;
+use App\Http\Requests\ChangePractRequest;
 
 class opopController extends Controller
 {
@@ -90,7 +94,7 @@ class opopController extends Controller
         return view('groups', ['directiones' => $directiones, 'groups' => $groups, 'users' => $users,]);
     }
 
-    public function getDataForChangePract(Request $request)
+    public function getDataForChangePract(PractRequest $request)
     {
         $pract_id = $request->input('pract');
 
@@ -221,7 +225,7 @@ class opopController extends Controller
         return redirect('opop');
     }
 
-    public function addDirector(Request $request)
+    public function addDirector(AddDirectorRequest $request)
     {
         $user = $request->input('user');
         $post = $request->input('post');
@@ -231,7 +235,7 @@ class opopController extends Controller
         return redirect('admin');
     }
 
-    public function createPract(Request $request)
+    public function createPract(CreatePractRequest $request)
     {
         $order_date = $request->input('date');
         $order_id = $request->input('order');
@@ -260,7 +264,7 @@ class opopController extends Controller
         return redirect('opop');
     }
 
-    public function changePract(Request $request)
+    public function changePract(ChangePractRequest $request)
     {
         $number = $request->input('pract');
 

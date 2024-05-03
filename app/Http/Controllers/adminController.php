@@ -8,6 +8,10 @@ use App\Models\institute;
 use App\Models\direction;
 use App\Models\director;
 use App\Models\User;
+use App\Http\Requests\InstituteRequest;
+use App\Http\Requests\DirectionRequest;
+use App\Http\Requests\DeleteDirectionRequest;
+use App\Http\Requests\OPOPRequest;
 
 class adminController extends Controller
 {
@@ -22,14 +26,14 @@ class adminController extends Controller
 	}
 
 
-	public function createInstitute(Request $request)
+	public function createInstitute(InstituteRequest $request)
 	{
 		$name = $request->input('name');
 		institute::create(['name' => $name]);
 		return redirect('admin');
 	}
 
-	public function createDirection(Request $request)
+	public function createDirection(DirectionRequest $request)
 	{
 		$name = $request->input('name');
 		$institute = $request->input('institute');
@@ -39,7 +43,7 @@ class adminController extends Controller
 		return redirect('admin');
 	}
 
-	public function deleteDirection(Request $request)
+	public function deleteDirection(DeleteDirectionRequest $request)
 	{
 		$id = $request->input('direction');
 		$direction = direction::where('id', $id)->first();
@@ -50,7 +54,7 @@ class adminController extends Controller
 		return redirect('admin');
 	}
 
-	public function OPOP(Request $request)
+	public function OPOP(OPOPRequest $request)
 	{
 		$user = $request->input('user');
 		$institute = $request->input('institute');

@@ -63,6 +63,9 @@ Route::post('studentToGroup', [opopController::class, 'studentToGroup']);
 Route::post('createPract', [opopController::class, 'createPract']);
 Route::post('Pract', [opopController::class, 'getDataForChangePract']);
 Route::post('changePract', [opopController::class, 'changePract']);
+Route::get('Pract', function(){
+    return redirect('opop');
+});
 
 Route::post('addPractStudent', [PractisController::class, 'addPractStudent']);
 

@@ -19,6 +19,7 @@ use App\Models\PractRemark;
 use App\Models\PractProblem;
 use App\Models\Task;
 use App\Models\director;
+use App\Http\Requests\AddPracticStudentPractRequest;
 
 class PractisController extends Controller
 {
@@ -61,7 +62,7 @@ class PractisController extends Controller
 	}
 
 
-	public function addPractStudent(Request $request)
+	public function addPractStudent(AddPracticStudentPractRequest $request)
 	{
 		$practic_id = $request->input('practic');
 		$user_id = $request->input('student');
