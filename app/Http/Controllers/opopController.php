@@ -17,7 +17,11 @@ use App\Models\Place;
 use App\Models\Practic;
 use App\Models\PractGroup;
 use App\Models\Order;
+use App\Models\Task;
 use App\Models\Agreement;
+use App\Models\PractCharacteristic;
+use App\Models\PractProblem;
+use App\Models\PractRemark;
 use App\Models\PractStudent;
 use Illuminate\Support\Arr;
 
@@ -38,7 +42,7 @@ class opopController extends Controller
         $usersTemp = User::all();
         $students = Student::all();
         $agreement_type = AgreementType::all();
-        $directorsTemp = director::where('responsibillity',null)->get();
+        $directorsTemp = director::where('responsibillity', null)->get();
         $types = Type::all();
         $views = View::all();
         $users = [];
@@ -59,6 +63,32 @@ class opopController extends Controller
         }
 
         return view('opop', ['practics' => $practics, 'agreement' => $agreement_type, 'types' => $types, 'views' => $views, 'directiones' => $directiones, 'groups' => $groups, 'users' => $users, 'directors' => $directors]);
+    }
+
+    public function getDataForGroup(Request $request)
+    {
+        $directiones = direction::all();
+        $groups = StudentGroup::all();
+        $usersTemp = User::all();
+        $students = Student::all();
+        $directors = director::all();
+        $users = [];
+        $students_id = [];
+        $directors_id = [];
+
+        foreach ($students as $student) {
+            array_push($students_id, $student->user_id);
+        }
+        foreach ($directors as $director) {
+            array_push($directors_id, $director->user_id);
+        }
+        foreach ($usersTemp as $user) {
+            if (!in_array($user->id, $students_id) and !in_array($user->id, $directors_id)) {
+                array_push($users, $user);
+            }
+        }
+
+        return view('groups', ['directiones' => $directiones, 'groups' => $groups, 'users' => $users,]);
     }
 
     public function getDataForChangePract(Request $request)
@@ -142,6 +172,28 @@ class opopController extends Controller
         return redirect('opop');
     }
 
+    public function deleteGroup(Request $request)
+    {
+        $group_id = $request->input('group');
+        PractGroup::where('group_id', $group_id)->delete();
+        StudentGroup::where('id', $group_id)->delete();
+
+        $students = Student::where('group_id', $group_id)->get();
+        foreach ($students as $student) {
+            $pract_student = PractStudent::where('student_id', $student->id)->get();
+            foreach ($pract_student as $t) {
+                Task::where('pract_student_id', $t->id)->delete();
+                PractRemark::where('pract_id', $t->id)->delete();
+                PractProblem::where('pract_id', $t->id)->delete();
+                PractCharacteristic::where('pract_id', $t->id)->delete();
+                $t->delete();
+            }
+            $student->delete();
+        }
+
+        return redirect('groups');
+    }
+
     public function giveCourse(Request $request)
     {
         $id = $request->input('group');
@@ -160,7 +212,11 @@ class opopController extends Controller
         $user = $request->input('user');
 
         if ($group != null and $user != null) {
-            Student::create(['user_id' => $user, 'group_id' => $group]);
+            $student = Student::updateOrCreate(['user_id' => $user], ['user_id' => $user, 'group_id' => $group]);
+            $stud_group = PractGroup::where('group_id', $group)->get();
+            foreach ($stud_group as $t) {
+                PractStudent::updateOrCreate(['pract_id' => $t->pract_id, 'student_id' => $student->id], ['pract_id' => $t->pract_id, 'student_id' => $student->id]);
+            }
         }
 
         return redirect('opop');

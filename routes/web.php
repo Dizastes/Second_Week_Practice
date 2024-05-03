@@ -73,3 +73,6 @@ Route::get('student', [StudentController::class, 'getData'])->name('student');
 Route::post('download', [generateController::class, 'getWord']);
 
 Route::post('uploadfile', [StudentController::class, 'uploadFile']);
+
+Route::get('groups', [opopController::class, 'getDataForGroup']);
+Route::post('deleteGroup', [opopController::class, 'deleteGroup']);
