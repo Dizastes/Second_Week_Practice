@@ -16,7 +16,7 @@ class login
     public function handle(Request $request, Closure $next): Response
     {
         if ($request->cookie('Auth'))
-            return redirect()->route('home');
+            return redirect()->route('userpage');
         return $next($request);
     }
 }

@@ -16,8 +16,14 @@ use App\Http\Requests\OPOPRequest;
 class adminController extends Controller
 {
 
-	public function getData()
+	public function getData(Request $request)
 	{
+		$token = explode(".", $request->cookie('Auth'));
+        $user_role = json_decode(base64_decode($token[1]), true)['role'];
+        if ($user_role != 3) {
+        	return redirect('/');
+        }
+
 		$institutes = institute::all();
 		$directiones = direction::all();
 		$users = User::all();

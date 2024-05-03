@@ -33,6 +33,12 @@ class opopController extends Controller
 {
     public function getData(Request $request)
     {
+        $token = explode(".", $request->cookie('Auth'));
+        $user_role = json_decode(base64_decode($token[1]), true)['role'];
+        if ($user_role != 2) {
+            return redirect('/');
+        }
+
         $practicsTemp = Practic::all();
         $practics = [];
         foreach ($practicsTemp as $temp) {
@@ -70,6 +76,12 @@ class opopController extends Controller
 
     public function getDataForGroup(Request $request)
     {
+        $token = explode(".", $request->cookie('Auth'));
+        $user_role = json_decode(base64_decode($token[1]), true)['role'];
+        if ($user_role != 2) {
+            return redirect('/');
+        }
+        
         $directiones = direction::all();
         $groups = StudentGroup::all();
         $usersTemp = User::all();
@@ -172,7 +184,7 @@ class opopController extends Controller
         if ($direction != null and $name != null) {
             StudentGroup::create(['direction_id' => $direction, 'name' => $name]);
         }
-        return redirect('opop');
+        return redirect('groups');
     }
 
     public function deleteGroup(Request $request)
@@ -206,7 +218,7 @@ class opopController extends Controller
             StudentGroup::where('id', $id)->first()->setAttribute('course', $course)->save();
         }
 
-        return redirect('opop');
+        return redirect('groups');
     }
 
     public function studentToGroup(Request $request)
@@ -222,7 +234,7 @@ class opopController extends Controller
             }
         }
 
-        return redirect('opop');
+        return redirect('groups');
     }
 
     public function addDirector(AddDirectorRequest $request)
@@ -269,6 +281,7 @@ class opopController extends Controller
         $number = $request->input('pract');
 
         $pract = Practic::where('id', $number)->first();
+        $old_director_id = $pract->director_id;
 
         $order_date = $request->input('date');
         $order_id = $request->input('order');
@@ -283,12 +296,13 @@ class opopController extends Controller
         $dir_p = $request->input('dir_p');
         $dir_o = $request->input('dir_o');
         $dir_practise = $request->input('dir_practise');
-        $director_id = director::where('id', $dir_university)->first()->setAttribute('responsibillity', 0);
+        $director_id = director::where('id', $dir_practise)->first()->setAttribute('responsibillity', 3);
         $director_id->save();
+
         $dir_user_id = $director_id->user_id;
         $user = User::where('id', $dir_user_id)->first();
         if ($user->role != 2) {
-            User::where('id', $dir_user_id)->setAttribute('role', 1)->save();
+            User::where('id', $dir_user_id)->first()->setAttribute('role', 1)->save();
         }
         $director_pr_id = director::where('id', $dir_p)->first()->setAttribute('responsibillity', 1);
         $director_pr_id->save();
@@ -296,9 +310,8 @@ class opopController extends Controller
         $director_or_id->save();
         $money = $request->input('money');
         $agreement_id = $request->input('agreement');
-        $director_ugu_id = director::where('id', $dir_practise)->first()->setAttribute('responsibillity', 3);
+        $director_ugu_id = director::where('id', $dir_university)->first()->setAttribute('responsibillity', 0);
         $director_ugu_id->save();
-
         $new_agreement = Agreement::updateOrCreate([
             'id' => $pract->agreement_id
         ], [
@@ -317,6 +330,13 @@ class opopController extends Controller
             'place_id' => $place->id, 'date_begin' => $begin, 'date_end' => $end, 'order_id' => $order->id, 'director_id' => $director_id->id, 'director_ugu_id' => $director_ugu_id->id,
             'director_pr_id' => $director_pr_id->id, 'director_or_id' => $director_or_id->id
         ]);
+
+        $count = Practic::where('director_id',$old_director_id)->count();
+        
+        if ($count == 0) {
+            $user_id_t = director::where('id',$old_director_id)->first()->user_id;
+            User::where('id', $user_id_t)->first()->setAttribute('role', 0)->save();        
+        }
 
         $gr_temp = PractGroup::where('pract_id', $pract->id)->get();
         foreach ($gr_temp as $t) {

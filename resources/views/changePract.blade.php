@@ -175,19 +175,19 @@
 
     var $select = $('#select-dir-1').selectize();
     var selectize = $select[0].selectize;
-    selectize.setValue('{{$selected['director_1']}}');
+    selectize.setValue('{{$selected['director_2']}}');
 
     var $select = $('#select-dir-2').selectize();
     var selectize = $select[0].selectize;
-    selectize.setValue('{{$selected['director_2']}}');
+    selectize.setValue('{{$selected['director_3']}}');
 
     var $select = $('#select-dir-3').selectize();
     var selectize = $select[0].selectize;
-    selectize.setValue('{{$selected['director_3']}}');
+    selectize.setValue('{{$selected['director_4']}}');
 
     var $select = $('#select-dir-4').selectize();
     var selectize = $select[0].selectize;
-    selectize.setValue('{{$selected['director_4']}}');
+    selectize.setValue('{{$selected['director_1']}}');
 </script>
 
 </html>
