@@ -34,38 +34,42 @@
                 <h2 style="margin:0">Отчеты</h2>
             </div>
             @for ($i = 0; $i < count($practics); $i++)
-                <div class="section" style="justify-content:initial">
-                    <form action="uploadfile" method="post" enctype="multipart/form-data" class="form_admin">
-                        @csrf
-                        <p class="practicData">Практика "{{ $practics[$i]->name }}"
-                            {{ preg_replace('/-/', '.', $practics[$i]->date_begin) }}-{{ preg_replace('/-/', '.', $practics[$i]->date_end) }}
-                        </p>
-                        <input type="hidden" value="{{ $practics[$i]->id }}" name="pract">
-                        <label class="input-file">
-                            <span class="input-file-text" type="text"></span>
-                            <input type="file" name="file">
-                            <span class="input-file-btn">Выберите файл</span>
-                        </label>
-                        <input type="submit" class="mybtn" style="width:max-content; height:max-content"
-                            value="Загрузить">
-                    </form>
-                    <h5>{{ $students[$i]->status }}</h5>
-                    @if ($students[$i]->status == 'Подтверждено')
-                        <form action="Otchet" method="get">
+                @if ($students[$i]->complete == 1)
+                    <div class="section" style="justify-content:initial">
+                        <form action="uploadfile" method="post" enctype="multipart/form-data" class="form_admin">
                             @csrf
-                            <input type="hidden" value="{{ $practics[$i]->id }}" name="pract_id">
-                            <input type="submit" style="width:max-content; height:max-content" class="mybtn"
-                                value="скачать">
+                            <p class="practicData">Практика "{{ $practics[$i]->name }}"
+                                {{ preg_replace('/-/', '.', $practics[$i]->date_begin) }}-{{ preg_replace('/-/', '.', $practics[$i]->date_end) }}
+                            </p>
+                            <input type="hidden" value="{{ $practics[$i]->id }}" name="pract">
+                            @if ($students[$i]->status == 'Отказано' || $students[$i]->status == '')
+                                <label class="input-file">
+                                    <span class="input-file-text" type="text"></span>
+                                    <input type="file" name="file">
+                                    <span class="input-file-btn">Выберите файл</span>
+                                </label>
+                                <input type="submit" class="mybtn" style="width:max-content; height:max-content"
+                                    value="Загрузить">
+                            @endif
                         </form>
-                    @elseif ($students[$i]->status == '' || $students[$i]->status == 'Отказано')
-                        <form action="confirm" method="post">
-                            @csrf
-                            <input type="hidden" value="{{ $students[$i]->id }}" name="pract_id">
-                            <input type="submit" style="width:max-content; height:max-content" class="mybtn"
-                                value="Запросить" name="confirm">
-                        </form>
-                    @endif
-                </div>
+                        <h5>{{ $students[$i]->status }}</h5>
+                        @if ($students[$i]->status == 'Подтверждено')
+                            <form action="Otchet" method="get">
+                                @csrf
+                                <input type="hidden" value="{{ $practics[$i]->id }}" name="pract_id">
+                                <input type="submit" style="width:max-content; height:max-content" class="mybtn"
+                                    value="скачать">
+                            </form>
+                        @elseif ($students[$i]->status == '' || $students[$i]->status == 'Отказано')
+                            <form action="confirm" method="post">
+                                @csrf
+                                <input type="hidden" value="{{ $students[$i]->id }}" name="pract_id">
+                                <input type="submit" style="width:max-content; height:max-content" class="mybtn"
+                                    value="Запросить" name="confirm">
+                            </form>
+                        @endif
+                    </div>
+                @endif
             @endfor
         </div>
     </main>
