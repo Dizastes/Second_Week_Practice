@@ -198,7 +198,12 @@ class generateController extends Controller
     public function getWord(Request $request)
     {
         $token = explode(".", $request->cookie('Auth'));
-        $id = json_decode(base64_decode($token[1]), true)['id'];
+        $id = 0;
+        if ($request->getMethod() == "GET") {
+            $id = json_decode(base64_decode($token[1]), true)['id'];
+        } else {
+            $id = $request->input('student_id');
+        }
         $pract_id = $request->input('pract_id');
         $info = $this->getData($id, $pract_id);
         $document = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('word\document.docx'));

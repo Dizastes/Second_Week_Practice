@@ -19,6 +19,7 @@ use App\Models\PractRemark;
 use App\Models\PractProblem;
 use App\Models\Task;
 use App\Models\director;
+use App\Http\Requests\AddPracticStudentPractRequest;
 
 class PractisController extends Controller
 {
@@ -61,7 +62,7 @@ class PractisController extends Controller
 	}
 
 
-	public function addPractStudent(Request $request)
+	public function addPractStudent(AddPracticStudentPractRequest $request)
 	{
 		$practic_id = $request->input('practic');
 		$user_id = $request->input('student');
@@ -73,9 +74,8 @@ class PractisController extends Controller
 		$remarks_list = $request->input('remarks');
 		$problem_list = $request->input('problem');
 		$reason = $request->input('reason');
-
 		$pract_student = PractStudent::where('pract_id', $practic_id)->where('student_id', $student_id->id)->get()[0];
-		
+
 		$pract_student->volume_id = $volume_id;
 		$pract_student->mark = $mark;
 		$pract_student->complete = ($complete == 'on') ? true : false;
@@ -105,6 +105,11 @@ class PractisController extends Controller
 				'problem_id' => $problem
 			]);
 		}
+
+		$tasks = $request->input('task');
+		$pract_student->tasks = $tasks;
+		$pract_student->save();
+
 
 		return redirect('practic');
 	}
