@@ -27,13 +27,13 @@ use App\Models\Reason;
 use App\Models\PractRemark;
 use function morphos\Russian\inflectName;
 use morphos\Russian\GeographicalNamesInflection;
+use morphos\Russian\NounDeclension;
 use PHPUnit\Framework\Attributes\Group;
 
 class generateController extends Controller
 {
     public function getData($id, $pract_id)
     {
-
         $user = User::where('id', $id)->first();
         $student = Student::where('user_id', $id)->first();
         $practStudent = PractStudent::where('student_id', $student->id)->where('pract_id', $pract_id)->latest()->first();
@@ -163,6 +163,8 @@ class generateController extends Controller
         $info['Course'] = $group->course;
         $info['Group'] = $group->name;
         $info['City'] = $place->city;
+        $info['PracticViewP'] = NounDeclension::getCase($info['PracticView'], 'предложный');
+        $info['PracticTypeP'] = NounDeclension::getCase($info['PracticType'], 'предложный');
         $info['date_begin'] = $date_begin[2] . '.' . $date_begin[1] . '.' . $date_begin[0];
         $info['date_end'] = $date_end[2] . '.' . $date_end[1] . '.' . $date_end[0];
         $info['NumberOrder'] = $order->number;
@@ -208,7 +210,7 @@ class generateController extends Controller
         if ($request->getMethod() == "GET") {
             $id = json_decode(base64_decode($token[1]), true)['id'];
         } else {
-            $id = $request->input('student_id');
+            $id = $request->input('user_id');
         }
         $pract_id = $request->input('pract_id');
         $info = $this->getData($id, $pract_id);

@@ -31,18 +31,18 @@
                     <h4 class="practicData">Выбрать студента</h4 class="practicData">
                     <select id='select-student' name="student" placeholder="Студент">
                         <option value=""></option>
-                        @foreach ($students as $student)
-                            <option value="{{ $student[0]->id }}">{{ $student[0]->second_name }}
-                                {{ $student[0]->first_name }}
-                                {{ $student[0]->third_name }}</option>
-                        @endforeach
+                        @for ($i = 0; $i < count($students); $i++)
+                            <option value="{{ $students[$i][0]->id }}">{{ $students[$i][0]->second_name }}
+                                {{ $students[$i][0]->first_name }}
+                                {{ $students[$i][0]->third_name }}</option>
+                        @endfor
                     </select>
                 </div>
                 <div class="container_admin mt-3">
                     <h4 class="practicData">Прошел ли практику</h4 class="practicData">
-                    <input type="checkbox" name="complete">
+                    <input type="checkbox" name="complete" id="complete">
                 </div>
-                <div class="container_admin mt-3">
+                <div class="container_admin mt-3" id="uncomplete">
                     <h4 class="practicData">Причина(если не прошел практику)</h4 class="practicData">
                     <select id='select-volume' name="reason" placeholder="Причина">
                         <option value=""></option>
@@ -63,8 +63,8 @@
                 </div>
                 <div class="container_admin mt-3">
                     <h4 class="practicData">Качества</h4 class="practicData">
-                    <select id='select-characteristics' name="characteristics[]" class="selectmore"
-                        placeholder="Качества человека" multiple>
+                    <select id='select-characteristics' name="characteristics[]"" placeholder="Качества человека"
+                        multiple>
                         <option value=""></option>
                         @foreach ($characteristics as $characteristic)
                             <option value="{{ $characteristic->id }}">{{ $characteristic->charact }}</option>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="container_admin mt-3">
                     <h4 class="practicData">Замечания</h4 class="practicData">
-                    <select id='select-remarks' name="remarks[]" class="selectmore" placeholder="Замечания" multiple>
+                    <select id='select-remarks' name="remarks[]" placeholder="Замечания" multiple>
                         <option value=""></option>
                         @foreach ($remarks as $remark)
                             <option value="{{ $remark->id }}">{{ $remark->remarks }}</option>
@@ -91,8 +91,7 @@
                 </div>
                 <div class="container_admin mt-3">
                     <h4 class="practicData">Как справлялся с проблемами</h4 class="practicData">
-                    <select id='select-problem' name="problem[]" class="selectmore"
-                        placeholder="Справлялся с проблемами" multiple>
+                    <select id='select-problem' name="problem[]" placeholder="Справлялся с проблемами" multiple>
                         <option value=""></option>
                         @foreach ($problems as $problem)
                             <option value="{{ $problem->id }}">{{ $problem->name }}</option>
@@ -100,7 +99,7 @@
                     </select>
                 </div>
                 <div class="container_admin mt-3">
-                    <h4 class="practicData">Задачи</h4 class="practicData">
+                    <h4 class="practicData" class="practicData">Задачи</h4>
                     <input type="text" name="task" placeholder="Задачи">
                 </div>
                 <div class="section">
@@ -116,15 +115,11 @@
             });
         });
 
-        $("select.selectmore").selectize({
-            delimiter: ",",
-            persist: false,
-            maxItems: null,
-            create: function(input) {
-                return {
-                    value: input,
-                    text: input,
-                };
+        document.getElementById("complete").addEventListener("change", function() {
+            if (this.checked) {
+                document.getElementById("uncomplete").style.display = "none";
+            } else {
+                document.getElementById("uncomplete").style.display = "flex";
             }
         });
 
