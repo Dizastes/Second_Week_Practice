@@ -41,10 +41,11 @@ class generateController extends Controller
         $group = StudentGroup::where('id', $group_id)->first();
 
         $or_id = $pract->director_or_id;
-        $or = director::where('user_id', $or_id)->first();
+        // dd($or_id);
+        $or = director::where('id', $or_id)->first();
         $or_user = User::where('id', $or->user_id)->first();
         $ugu_id = $pract->director_ugu_id;
-        $ugu = director::where('user_id', $ugu_id)->first();
+        $ugu = director::where('id', $ugu_id)->first();
         $ugu_user = User::where('id', $ugu->user_id)->first();
 
         $direction = direction::where('id', $group->direction_id)->first();
