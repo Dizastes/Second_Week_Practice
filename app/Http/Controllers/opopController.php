@@ -65,7 +65,60 @@ class opopController extends Controller
             }
         }
 
-        return view('opop', ['practics' => $practics, 'agreement' => $agreement_type, 'types' => $types, 'views' => $views, 'directiones' => $directiones, 'groups' => $groups, 'users' => $users]);
+        $pract_id = $request->session()->pull('pract_id');
+        $download = $request->session()->pull('download');
+        $group_id = $request->session()->pull('group_id');
+
+        return view('opop', ['pract_id' => $pract_id, 'group_id' => $group_id, 'download' => $download, 'practics' => $practics, 'agreement' => $agreement_type, 'types' => $types, 'views' => $views, 'directiones' => $directiones, 'groups' => $groups, 'users' => $users, 'user_role' => $this->getRole($request)]);
+    }
+
+    public function getDataForWord(Request $request)
+    {
+        $pract_id = $request->input('pract_id');
+        $group_id = $request->input('group_id');
+
+        $countStudents = Student::where('group_id', $group_id)->count();
+        $studentsWord = Student::where('group_id', $group_id)->get();
+        $countWord = 0;
+        foreach ($studentsWord as $t) {
+            $pract_studentWord = PractStudent::where('student_id', $t->id)->where('pract_id', $pract_id)->first();
+            if ($pract_studentWord != null) {
+                if ($pract_studentWord->complete != null) {
+                    $countWord++;
+                }
+            }
+        }
+        $download = false;
+        if ($countWord == $countStudents and $countWord != 0) {
+            $download = true;
+        }
+
+        session()->put('download', $download);
+        session()->put('pract_id', $pract_id);
+        session()->put('group_id', $group_id);
+
+        return  redirect('opop');
+    }
+
+    public function getRole($request)
+    {
+        $token = explode(".", $request->cookie('Auth'));
+        $user_role = json_decode(base64_decode($token[1]), true)['role'];
+        return $user_role;
+    }
+
+    public function getGroups($practiceId)
+    {
+        $groups = PractGroup::where('pract_id', $practiceId)->get();
+
+        $data = [];
+
+        foreach ($groups as $group) {
+            $group = StudentGroup::where('id', $group->group_id)->first();
+            array_push($data, ['value' => $group->id, 'text' => $group->name]);
+        }
+
+        return response()->json($data);
     }
 
     public function getDataForGroup(Request $request)
@@ -91,7 +144,7 @@ class opopController extends Controller
             }
         }
 
-        return view('groups', ['directiones' => $directiones, 'groups' => $groups, 'users' => $users,]);
+        return view('groups', ['directiones' => $directiones, 'groups' => $groups, 'users' => $users, 'user_role' => $this->getRole($request)]);
     }
 
     public function getDataForChangePract(PractRequest $request)
@@ -161,7 +214,7 @@ class opopController extends Controller
         }
 
 
-        return view('changePract', ['pract_id' => $pract_id, 'agreement_id' => $pract->agreement_id, 'selected' => $selected, 'agreement' => $agreement_type, 'types' => $types, 'views' => $views, 'groups' => $groups, 'users' => $users, 'directors' => $directors]);
+        return view('changePract', ['pract_id' => $pract_id, 'agreement_id' => $pract->agreement_id, 'selected' => $selected, 'agreement' => $agreement_type, 'types' => $types, 'views' => $views, 'groups' => $groups, 'users' => $users, 'directors' => $directors, 'user_role' => $this->getRole($request)]);
     }
 
     public function createGroup(Request $request)

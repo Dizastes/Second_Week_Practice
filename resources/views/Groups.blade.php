@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<head>
+    @include('templates.include')
+    @include('templates.bootstrap')
+</head>
+
 <body>
-    <div>
-    <div class="container_admin">
+    @include('templates.admin')
+    <main class="main_admin">
+        <div>
+            <div class="section mb-5">
+                <h1>Управление группами </h1>
+            </div>
+            <div class="container_admin mb-3">
                 <form action="createGroup" method='post' class="form_admin">
                     @csrf
                     <h2>Добавить группу</h2>
@@ -17,7 +27,7 @@
                     <button type="submit">+</button>
                 </form>
             </div>
-            <div class="container_admin">
+            <div class="container_admin  mb-3">
                 <form action="giveCourse" method='post' class="form_admin">
                     @csrf
                     <h2>Курс</h2>
@@ -37,7 +47,7 @@
                     <button type="submit">+</button>
                 </form>
             </div>
-            <div class="container_admin">
+            <div class="container_admin  mb-3">
                 <form action="studentToGroup" method='post' class="form_admin">
                     @csrf
                     <h2>Добавить студента</h2>
@@ -59,8 +69,8 @@
                     <button type="submit">+</button>
                 </form>
             </div>
-            <div>
-                <form action="deleteGroup" method='post'>
+            <div class="container_admin  mb-3">
+                <form action="deleteGroup" method='post' class="form_admin">
                     @csrf
                     <h2>Удалить группу</h2>
                     <select id='select-state' name="group" placeholder="группа">
@@ -72,6 +82,15 @@
                     <button type="submit">-</button>
                 </form>
             </div>
-    </div>
+        </div>
+    </main>
 </body>
+<script>
+    $(document).ready(function() {
+        $('select').selectize({
+            sortField: 'text'
+        });
+    });
+</script>
+
 </html>

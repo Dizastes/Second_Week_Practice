@@ -61,7 +61,7 @@ class generateController extends Controller
         $tasks = [];
         $tasksTemp = explode(',', $practStudent->tasks);
         foreach ($tasksTemp as $task) {
-            array_push($tasks, ['item'=>$task]);
+            array_push($tasks, ['item' => $task]);
         }
 
         $characteristicId = PractCharacteristic::where('pract_id', $practStudent->id)->get();
@@ -234,7 +234,7 @@ class generateController extends Controller
     {
         $pract_id = $request->input('pract_id');
         $group_id = $request->input('group_id');
-        $infoWord = $this->getDataForSecondWord(6, 3);
+        $infoWord = $this->getDataForSecondWord($pract_id, $group_id);
         $document = new \PhpOffice\PhpWord\TemplateProcessor(storage_path('word\group.docx'));
         $phpWord = new PhpWord();
         $uploadDir = __DIR__;

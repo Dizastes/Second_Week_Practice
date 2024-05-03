@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @include('templates.include')
+    @include('templates.bootstrap')
     <title>Practic</title>
 </head>
 
 <body>
-    @include('templates.header')
+    @include('templates.admin')
     <main class="main_admin">
         <div class="section">
             <h1>Руководитель практики</h1>
@@ -17,8 +18,8 @@
         <div>
             <form action="addPractStudent" method="post" enctype="multipart/form-data">
                 @csrf
-                <div class="container_admin">
-                    <h2>Практика</h2>
+                <div class="container_admin mt-3">
+                    <h4 class="practicData">Практика</h4 class="practicData">
                     <select id='select-practic' name="practic" placeholder="Практика">
                         <option value=""></option>
                         @foreach ($practics as $practic)
@@ -26,8 +27,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="container_admin">
-                    <h2>Выбрать студента</h2>
+                <div class="container_admin mt-3">
+                    <h4 class="practicData">Выбрать студента</h4 class="practicData">
                     <select id='select-student' name="student" placeholder="Студент">
                         <option value=""></option>
                         @foreach ($students as $student)
@@ -37,12 +38,12 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="container_admin">
-                    <h2>Прошел ли практику</h2>
+                <div class="container_admin mt-3">
+                    <h4 class="practicData">Прошел ли практику</h4 class="practicData">
                     <input type="checkbox" name="complete">
                 </div>
-                <div class="container_admin">
-                    <h2>Причина(если не прошел практику)</h2>
+                <div class="container_admin mt-3">
+                    <h4 class="practicData">Причина(если не прошел практику)</h4 class="practicData">
                     <select id='select-volume' name="reason" placeholder="Причина">
                         <option value=""></option>
                         @foreach ($reasons as $reason)
@@ -50,8 +51,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="container_admin">
-                    <h2>Оценка</h2>
+                <div class="container_admin mt-3">
+                    <h4 class="practicData">Оценка</h4 class="practicData">
                     <select id='select-mark' name="mark" placeholder="Оценка">
                         <option value=""></option>
                         <option value="2">2</option>
@@ -60,8 +61,8 @@
                         <option value="5">5</option>
                     </select>
                 </div>
-                <div class="container_admin">
-                    <h2>Качества</h2>
+                <div class="container_admin mt-3">
+                    <h4 class="practicData">Качества</h4 class="practicData">
                     <select id='select-characteristics' name="characteristics[]" class="selectmore"
                         placeholder="Качества человека" multiple>
                         <option value=""></option>
@@ -70,8 +71,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="container_admin">
-                    <h2>Объем выполнения</h2>
+                <div class="container_admin mt-3">
+                    <h4 class="practicData">Объем выполнения</h4 class="practicData">
                     <select id='select-volume' class="volume" name="volume" placeholder="Объем выполнения">
                         <option value=""></option>
                         @foreach ($volumes as $volume)
@@ -79,8 +80,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="container_admin">
-                    <h2>Замечания</h2>
+                <div class="container_admin mt-3">
+                    <h4 class="practicData">Замечания</h4 class="practicData">
                     <select id='select-remarks' name="remarks[]" class="selectmore" placeholder="Замечания" multiple>
                         <option value=""></option>
                         @foreach ($remarks as $remark)
@@ -88,8 +89,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="container_admin">
-                    <h2>Как справлялся с проблемами</h2>
+                <div class="container_admin mt-3">
+                    <h4 class="practicData">Как справлялся с проблемами</h4 class="practicData">
                     <select id='select-problem' name="problem[]" class="selectmore"
                         placeholder="Справлялся с проблемами" multiple>
                         <option value=""></option>
@@ -98,8 +99,8 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="container_admin">
-                    <h2>Задачи</h2>
+                <div class="container_admin mt-3">
+                    <h4 class="practicData">Задачи</h4 class="practicData">
                     <input type="text" name="task" placeholder="Задачи">
                 </div>
                 <div class="section">

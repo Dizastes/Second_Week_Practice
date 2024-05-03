@@ -16,15 +16,21 @@ use App\Http\Requests\OPOPRequest;
 class adminController extends Controller
 {
 
-	public function getData()
+	public function getData(Request $request)
 	{
 		$institutes = institute::all();
 		$directiones = direction::all();
 		$users = User::all();
 		// dd($institutes);
-		return view('admin', ['institutes' => $institutes, 'directiones' => $directiones, 'users' => $users]);
+		return view('admin', ['institutes' => $institutes, 'directiones' => $directiones, 'users' => $users, 'user_role' => $this->getRole($request)]);
 	}
 
+	public function getRole($request)
+	{
+		$token = explode(".", $request->cookie('Auth'));
+		$user_role = json_decode(base64_decode($token[1]), true)['role'];
+		return $user_role;
+	}
 
 	public function createInstitute(InstituteRequest $request)
 	{

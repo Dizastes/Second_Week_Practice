@@ -34,6 +34,8 @@ main {
     width: 4vh;
     height: 4vh;
     background-color: #c8deff;
+    line-height: normal;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS";
     border-radius: 50%;
     border: none;
     font-size: 30px;
@@ -229,4 +231,8 @@ hr {
 /* Disabled */
 .input-file input[type="file"]:disabled + .input-file-btn {
     background-color: #eee;
+}
+
+.user_head_btn {
+    position: relative;
 }

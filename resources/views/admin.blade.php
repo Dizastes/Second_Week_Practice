@@ -3,10 +3,11 @@
 
 <head>
     @include('templates.include')
+    @include('templates.bootstrap')
 </head>
 
 <body>
-    @include('templates.header')
+    @include('templates.admin')
     <header>
         <h1>Администратор учебных частей</h1>
     </header>

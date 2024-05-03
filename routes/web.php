@@ -63,7 +63,7 @@ Route::post('studentToGroup', [opopController::class, 'studentToGroup']);
 Route::post('createPract', [opopController::class, 'createPract']);
 Route::post('Pract', [opopController::class, 'getDataForChangePract']);
 Route::post('changePract', [opopController::class, 'changePract']);
-Route::get('Pract', function(){
+Route::get('Pract', function () {
     return redirect('opop');
 });
 
@@ -85,4 +85,8 @@ Route::get('groups', [opopController::class, 'getDataForGroup']);
 Route::post('deleteGroup', [opopController::class, 'deleteGroup']);
 Route::post('addDirector', [opopController::class, 'addDirector']);
 
-Route::get('groupWord',[generateController::class, "getGroupWord"]);
+Route::post('groupWord', [generateController::class, "getGroupWord"]);
+
+Route::get('get-groups/{practiceId}', [opopController::class, "getGroups"]);
+
+Route::post('checkStatus', [opopController::class, "getDataForWord"]);
