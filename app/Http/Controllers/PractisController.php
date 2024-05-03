@@ -70,6 +70,7 @@ class PractisController extends Controller
 		$pract_student->reason_id = $reason;
 		$pract_student->save();
 
+		PractCharacteristic::where('pract_id', $pract_student->id)->delete();
 		foreach ($characteristics_list as $charact) {
 			PractCharacteristic::create([
 				'pract_id' => $pract_student->id,
@@ -77,6 +78,7 @@ class PractisController extends Controller
 			]);
 		}
 
+		PractRemark::where('pract_id', $pract_student->id)->delete();
 		foreach ($remarks_list as $remark) {
 			PractRemark::create([
 				'pract_id' => $pract_student->id,
@@ -84,11 +86,14 @@ class PractisController extends Controller
 			]);
 		}
 
+		PractProblem::where('pract_id', $pract_student->id)->delete();
 		foreach ($problem_list as $problem) {
 			PractProblem::create([
 				'pract_id' => $pract_student->id,
 				'problem_id' => $problem
 			]);
 		}
+
+		return redirect('practic');
 	}
 }
