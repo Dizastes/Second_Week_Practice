@@ -204,7 +204,7 @@ class generateController extends Controller
     public function getWord(Request $request)
     {
         $token = explode(".", $request->cookie('Auth'));
-        $id = 0;
+        $id = null;
         if ($request->getMethod() == "GET") {
             $id = json_decode(base64_decode($token[1]), true)['id'];
         } else {

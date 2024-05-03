@@ -41,7 +41,13 @@
             <h2>Удалить образовательную программу</h2>
             <form action="deleteDirection" method='post' class="form_admin">
                 @csrf
-                <select id='select-state' name="direction" placeholder="наименование">
+                <select id='select-institute2' placeholder="подразделение">
+                    <option value=""></option>
+                    @foreach ($institutes as $institute)
+                        <option value="{{ $institute->id }}">{{ $institute->name }}</option>
+                    @endforeach
+                </select>
+                <select id='select-direction2' name="direction" placeholder="наименование">
                     <option value=""></option>
                     @foreach ($directiones as $direction)
                         <option value="{{ $direction->id }}">{{ $direction->name }}</option>
@@ -55,17 +61,14 @@
             <h2>Добавить руководителя ОПОП</h2>
             <form action="createOPOP" method='post' class="form_admin">
                 @csrf
-                <select id='select-state' name="institute" placeholder="подразделение">
+                <select id='select-institute' name="institute" placeholder="подразделение">
                     <option value=""></option>
                     @foreach ($institutes as $institute)
                         <option value="{{ $institute->id }}">{{ $institute->name }}</option>
                     @endforeach
                 </select>
-                <select id='select-state' name="direction" placeholder="программа">
-                    <option value=""></option>
-                    @foreach ($directiones as $direction)
-                        <option value="{{ $direction->id }}">{{ $direction->name }}</option>
-                    @endforeach
+                <select id='select-direction' name="direction" placeholder="программа">
+
                 </select>
                 <select id='select-state' name="user" placeholder="Пользователь">
                     <option value=""></option>
@@ -86,6 +89,48 @@
     $(document).ready(function() {
         $('select').selectize({
             sortField: 'text'
+        });
+    });
+
+    $(document).ready(function() {
+        var instituteSelectize = $('#select-institute').selectize();
+        var directionSelectize = $('#select-direction').selectize();
+
+        var instituteSelectizeInstance = instituteSelectize[0].selectize;
+        var directionSelectizeInstance = directionSelectize[0].selectize;
+
+        instituteSelectizeInstance.on('change', function(value) {
+            var institute_id = value;
+
+            directionSelectizeInstance.clearOptions();
+
+            $.ajax({
+                url: '/get-direction/' + institute_id,
+                type: 'GET',
+                success: function(data) {
+                    directionSelectizeInstance.addOption(data);
+                }
+            });
+        });
+
+        var instituteSelectize2 = $('#select-institute2').selectize();
+        var directionSelectize2 = $('#select-direction2').selectize();
+
+        var instituteSelectizeInstance2 = instituteSelectize2[0].selectize;
+        var directionSelectizeInstance2 = directionSelectize2[0].selectize;
+
+        instituteSelectizeInstance2.on('change', function(value) {
+            var institute_id = value;
+
+            directionSelectizeInstance2.clearOptions();
+
+            $.ajax({
+                url: '/get-direction/' + institute_id,
+                type: 'GET',
+                success: function(data) {
+                    directionSelectizeInstance2.addOption(data);
+                }
+            });
         });
     });
 </script>

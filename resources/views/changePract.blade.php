@@ -114,7 +114,7 @@
                         <h1>Руководители</h1>
                     </div>
                     <div class="direct">
-                        <div class="container_admin">
+                        <div class="container_admin mb-3">
                             <h2>Руководитель от ВУЗа</h2>
                             <select id='select-dir-1' name="dir_university">
                                 <option value=""></option>
@@ -123,7 +123,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="container_admin">
+                        <div class="container_admin mb-3">
                             <h2>Руководитель от предприятия</h2>
                             <select id='select-dir-2' name="dir_p">
                                 <option value=""></option>
@@ -132,7 +132,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="container_admin">
+                        <div class="container_admin mb-3">
                             <h2>Руководитель от организации</h2>
                             <select id='select-dir-3' name="dir_o">
                                 <option value=""></option>
@@ -141,7 +141,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="container_admin">
+                        <div class="container_admin mb-3">
                             <h2>Руководитель практики</h2>
                             <select id='select-dir-4' name="dir_practise">
                                 <option value=""></option>

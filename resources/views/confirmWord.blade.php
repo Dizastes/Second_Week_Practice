@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    @include('templates.admin')
     <main class="main_admin">
         <div class="section">
             <h1>Студенты ожидающие проверку</h1>
@@ -18,8 +19,8 @@
                     style="background-color: #DAE2F8;  border-radius: 10px">
                     <form action="download" method="post">
                         @csrf
-                        <input type="hidden" value="{{ $students_pract[$i]->student_id }}" name="student_id">
-                        <input type="hidden" value="{{ $students_pract[$i]->pract_id }}" name="pract_id">
+                        <input type="text" value="{{ $students_pract[$i]->student_id }}" name="student_id">
+                        <input type="text" value="{{ $students_pract[$i]->pract_id }}" name="pract_id">
                         <input type="submit" class="mybtn" style="width:max-content; padding: 0 20px !important;"
                             value="скачать">
                     </form>

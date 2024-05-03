@@ -63,7 +63,7 @@
                         @elseif ($students[$i]->status == '' || $students[$i]->status == 'Отказано')
                             <form action="confirm" method="post">
                                 @csrf
-                                <input type="hidden" value="{{ $students[$i]->id }}" name="pract_id">
+                                <input type="text" value="{{ $students[$i]->id }}" name="pract_id">
                                 <input type="submit" style="width:max-content; height:max-content" class="mybtn"
                                     value="Запросить" name="confirm">
                             </form>

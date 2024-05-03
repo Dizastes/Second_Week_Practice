@@ -66,7 +66,7 @@ class opopController extends Controller
             array_push($directors_id, $director->user_id);
         }
         foreach ($usersTemp as $user) {
-            if (!in_array($user->id, $students_id) and !in_array($user->id, $directors_id)) {
+            if (!in_array($user->id, $students_id) and !in_array($user->id, $directors_id) and $user->role == 0) {
                 array_push($users, $user);
             }
         }
@@ -134,9 +134,24 @@ class opopController extends Controller
         if ($user_role != 2) {
             return redirect('/');
         }
-        
-        $directiones = direction::all();
-        $groups = StudentGroup::all();
+
+        $director_id = director::where('user_id', json_decode(base64_decode($token[1]), true)['id'])->first()->id;
+        $institute_id = direction::where('director_id', $director_id)->first()->institute_id;
+
+
+        $directiones = direction::where('institute_id', $institute_id)->get();
+        $directions_id = [];
+        foreach ($directiones as $direction) { {
+                array_push($directions_id, $direction->id);
+            }
+        }
+        $groupsTemp = StudentGroup::all();
+        $groups = [];
+        foreach ($groupsTemp as $group) {
+            if (in_array($group->direction_id, $directions_id)) {
+                array_push($groups, $group);
+            }
+        }
         $usersTemp = User::all();
         $students = Student::all();
         $directors = director::all();
@@ -151,7 +166,7 @@ class opopController extends Controller
             array_push($directors_id, $director->user_id);
         }
         foreach ($usersTemp as $user) {
-            if (!in_array($user->id, $students_id) and !in_array($user->id, $directors_id)) {
+            if (!in_array($user->id, $students_id) and !in_array($user->id, $directors_id) and $user->role == 0) {
                 array_push($users, $user);
             }
         }
@@ -219,10 +234,14 @@ class opopController extends Controller
             }
         }
         $directors = [];
+        $used_users = [];
         foreach ($directorsTemp as $director) {
             $user = User::where('id', $director->user_id)->first();
-            $name = $user->second_name . ' ' . $user->first_name . ' ' . $user->third_name;
-            array_push($directors, ['id' => $director->id, 'name' => $name]);
+            if (!in_array($user->id, $used_users)) {
+                $name = $user->second_name . ' ' . $user->first_name . ' ' . $user->third_name;
+                array_push($directors, ['id' => $director->id, 'name' => $name]);
+                array_push($used_users, $user->id);
+            }
         }
 
 
@@ -384,17 +403,29 @@ class opopController extends Controller
             'director_pr_id' => $director_pr_id->id, 'director_or_id' => $director_or_id->id
         ]);
 
-        $count = Practic::where('director_id',$old_director_id)->count();
-        
+        $count = Practic::where('director_id', $old_director_id)->count();
+
         if ($count == 0) {
-            $user_id_t = director::where('id',$old_director_id)->first()->user_id;
-            User::where('id', $user_id_t)->first()->setAttribute('role', 0)->save();        
+            $user_id_t = director::where('id', $old_director_id)->first()->user_id;
+            User::where('id', $user_id_t)->first()->setAttribute('role', 0)->save();
         }
 
         $gr_temp = PractGroup::where('pract_id', $pract->id)->get();
         foreach ($gr_temp as $t) {
             if (!in_array($t->group_id, $groups === null ? [] : $groups)) {
                 $t->delete();
+                $group_id = $t->group_id;
+                $students = Student::where('group_id', $group_id)->get();
+                foreach ($students as $student) {
+                    $pract_student = PractStudent::where('student_id', $student->id)->get();
+                    foreach ($pract_student as $t1) {
+                        Task::where('pract_student_id', $t1->id)->delete();
+                        PractRemark::where('pract_id', $t1->id)->delete();
+                        PractProblem::where('pract_id', $t1->id)->delete();
+                        PractCharacteristic::where('pract_id', $t1->id)->delete();
+                        $t1->delete();
+                    }
+                }
             }
         }
         if ($groups !== null) {

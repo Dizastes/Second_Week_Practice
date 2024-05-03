@@ -102,4 +102,6 @@ Route::middleware(['jwt'])->group(function () {
     Route::get('get-groups/{practiceId}', [opopController::class, "getGroups"]);
 
     Route::post('checkStatus', [opopController::class, "getDataForWord"]);
+
+    Route::get('get-direction/{institute_Id}', [adminController::class, "getDirection"]);
 });

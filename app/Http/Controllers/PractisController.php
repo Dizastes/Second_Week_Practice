@@ -36,11 +36,11 @@ class PractisController extends Controller
 		$practics = Practic::where('director_id', $director[0]->id)->get();
 
 		$students = Student::all();
-		$students_list = [];
+		$practic_stud = [];
 
 		foreach ($practics as $practic) {
 			$practic_student = PractStudent::where('pract_id', $practic->id)->get();
-
+			array_push($practic_stud, $practic_student);
 			foreach ($practic_student as $pract) {
 				$student_id = $pract->student_id;
 				$student = Student::where('id', $student_id)->get();
@@ -61,8 +61,7 @@ class PractisController extends Controller
 		$problems = Problem::all();
 
 		$reasons = Reason::all();
-
-		return view('practic', ['students' => $students_list, 'practics' => $practics, 'characteristics' => $characteristics, 'volumes' => $volumes, 'remarks' => $remarks, 'problems' => $problems, 'reasons' => $reasons, 'user_role' => $this->getRole($request)]);
+		return view('practic', ['practstudents' => $practic_stud, 'students' => $students_list, 'practics' => $practics, 'characteristics' => $characteristics, 'volumes' => $volumes, 'remarks' => $remarks, 'problems' => $problems, 'reasons' => $reasons, 'user_role' => $this->getRole($request)]);
 	}
 
 	public function getRole($request)

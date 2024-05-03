@@ -17,7 +17,7 @@
                 <form action="checkStatus" method='post' class="form_admin">
                     @csrf
                     <h4 class="practicData">Получить отчет по группе</h4>
-                    <select id='practiceSelect' name="pract_id" placeholder="руководитель">
+                    <select id='practiceSelect' name="pract_id" placeholder="Номер приказа">
                         <option value=""></option>
                         @foreach ($practics as $practic)
                             <option value="{{ $practic['id'] }}">{{ $practic['order'] }}</option>
@@ -66,7 +66,7 @@
                         @endforeach
                     </select>
                     <input type='submit' class="myBtn" id="send-pract"
-                        style="width:max-content; padding: 0 10px; display:none">
+                        style="width:max-content; padding: 0 10px; display:none" value="Изменить">
                 </form>
                 <form action="createPract" method='post'>
                     @csrf
