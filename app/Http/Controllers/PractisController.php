@@ -18,22 +18,34 @@ use App\Models\PractCharacteristic;
 use App\Models\PractRemark;
 use App\Models\PractProblem;
 use App\Models\Task;
+use App\Models\director;
 
 class PractisController extends Controller
 {
 	public function getData(Request $request)
 	{
+		$token = explode(".", $request->cookie('Auth'));
+        $user_id = json_decode(base64_decode($token[1]), true)['id'];
+
+        $director = director::where('user_id', $user_id)->get();
+        $practics = Practic::where('director_id', $director[0]->id)->get();
+
 		$students = Student::all();
 		$students_list = [];
 
-		foreach ($students as $value) {
-			$uid = $value->user_id;
+		foreach ($practics as $practic) {
+			$practic_student = PractStudent::where('pract_id', $practic->id)->get();
 
-			$student = User::where('id', $uid)->get();
-			$students_list[] = $student;
+			foreach ($practic_student as $pract) {
+				$student_id = $pract->student_id;
+				$student = Student::where('id', $student_id)->get();
+				
+				$uid = $student[0]->user_id;
+
+				$student = User::where('id', $uid)->get();
+				$students_list[] = $student;
+			}
 		}
-
-		$practics = Practic::all();
 
 		$characteristics = Characteristics::all();
 
