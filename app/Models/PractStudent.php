@@ -19,5 +19,6 @@ class PractStudent extends Model
         'mark',
         'reason_id',
         'complete',
+        'status',
     ];
 }

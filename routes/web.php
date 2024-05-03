@@ -8,7 +8,7 @@ use App\Http\Controllers\generateController;
 use App\Http\Controllers\PractisController;
 use App\Http\Controllers\opopController;
 use App\Http\Controllers\StudentController;
-
+use App\Http\Controllers\confirmWord;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,6 +69,10 @@ Route::post('addPractStudent', [PractisController::class, 'addPractStudent']);
 Route::get('Otchet', [generateController::class, 'getWord']);
 
 Route::get('student', [StudentController::class, 'getData'])->name('student');
+
+Route::get('confirmWord', [confirmWord::class, 'getData']);
+
+Route::post('confirm', [confirmWord::class, 'confirmDoc']);
 
 Route::post('download', [generateController::class, 'getWord']);
 

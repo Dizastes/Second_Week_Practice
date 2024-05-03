@@ -33,14 +33,14 @@
             <div class="section">
                 <h2 style="margin:0">Отчеты</h2>
             </div>
-            @foreach ($practics as $practic)
-                <div class="section">
+            @for ($i = 0; $i < count($practics); $i++)
+                <div class="section" style="justify-content:initial">
                     <form action="uploadfile" method="post" enctype="multipart/form-data" class="form_admin">
                         @csrf
-                        <p class="practicData">Практика "{{ $practic->name }}"
-                            {{ preg_replace('/-/', '.', $practic->date_begin) }}-{{ preg_replace('/-/', '.', $practic->date_end) }}
+                        <p class="practicData">Практика "{{ $practics[$i]->name }}"
+                            {{ preg_replace('/-/', '.', $practics[$i]->date_begin) }}-{{ preg_replace('/-/', '.', $practics[$i]->date_end) }}
                         </p>
-                        <input type="hidden" value="{{ $practic->id }}" name="pract">
+                        <input type="hidden" value="{{ $practics[$i]->id }}" name="pract">
                         <label class="input-file">
                             <span class="input-file-text" type="text"></span>
                             <input type="file" name="file">
@@ -49,15 +49,24 @@
                         <input type="submit" class="mybtn" style="width:max-content; height:max-content"
                             value="Загрузить">
                     </form>
-                    <form action="download" method="post">
-                        @csrf
-                        <input type="hidden" value="{{ $practic->id }}" name="pract_id">
-                        <input type="submit" style="width:max-content; height:max-content" class="mybtn"
-                            value="скачать">
-                    </form>
-                    <h5>{{ $practic->status }}</h5>
+                    <h5>{{ $students[$i]->status }}</h5>
+                    @if ($students[$i]->status == 'Подтверждено')
+                        <form action="Otchet" method="get">
+                            @csrf
+                            <input type="hidden" value="{{ $practics[$i]->id }}" name="pract_id">
+                            <input type="submit" style="width:max-content; height:max-content" class="mybtn"
+                                value="скачать">
+                        </form>
+                    @elseif ($students[$i]->status == '' || $students[$i]->status == 'Отказано')
+                        <form action="confirm" method="post">
+                            @csrf
+                            <input type="hidden" value="{{ $students[$i]->id }}" name="pract_id">
+                            <input type="submit" style="width:max-content; height:max-content" class="mybtn"
+                                value="Запросить" name="confirm">
+                        </form>
+                    @endif
                 </div>
-            @endforeach
+            @endfor
         </div>
     </main>
 </body>
@@ -66,18 +75,6 @@
         let file = this.files[0];
         $(this).closest('.input-file').find('.input-file-text').html(file.name);
     });
-
-    function openDocx() {
-        fetch('/Otchet')
-            .then(response => response.blob())
-            .then(blob => {
-                var url = URL.createObjectURL(blob);
-                window.open(url, '_blank');
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-            });
-    }
 </script>
 
 </html>

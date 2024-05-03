@@ -61,9 +61,8 @@ class PractisController extends Controller
 		$remarks_list = $request->input('remarks');
 		$problem_list = $request->input('problem');
 		$reason = $request->input('reason');
-
 		$pract_student = PractStudent::where('pract_id', $practic_id)->where('student_id', $student_id->id)->get()[0];
-		
+
 		$pract_student->volume_id = $volume_id;
 		$pract_student->mark = $mark;
 		$pract_student->complete = ($complete == 'on') ? true : false;
