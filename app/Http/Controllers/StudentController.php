@@ -46,7 +46,15 @@ class StudentController extends Controller
 			$student_practics = null;
 		}
 
-		return view('student', ['user' => $user, 'group' => $group, 'direction' => $direction, 'practics' => $practics, 'students' => $student_practics]);
+		return view('student', ['user_role' => $this->getRole($request), 'user' => $user, 'group' => $group, 'direction' => $direction, 'practics' => $practics, 'students' => $student_practics]);
+	}
+
+
+	public function getRole($request)
+	{
+		$token = explode(".", $request->cookie('Auth'));
+		$user_role = json_decode(base64_decode($token[1]), true)['role'];
+		return $user_role;
 	}
 
 	public function uploadFile(Request $request)
