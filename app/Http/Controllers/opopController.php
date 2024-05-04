@@ -89,7 +89,7 @@ class opopController extends Controller
         foreach ($studentsWord as $t) {
             $pract_studentWord = PractStudent::where('student_id', $t->id)->where('pract_id', $pract_id)->first();
             if ($pract_studentWord != null) {
-                if ($pract_studentWord->complete != null) {
+                if ($pract_studentWord->mark != null) {
                     $countWord++;
                 }
             }

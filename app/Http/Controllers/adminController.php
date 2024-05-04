@@ -99,7 +99,7 @@ class adminController extends Controller
 		$id = $request->input('direction');
 		$direction = direction::where('id', $id)->first();
 		if ($direction->director_id != null) {
-			$studentGroups = Student::where('director_id', $direction->director_id)->get();
+			$studentGroups = StudentGroup::where('direction_id', $direction->id)->get();
 			foreach ($studentGroups as $studentGroup) {
 				$group_id = $studentGroup->id;
 				PractGroup::where('group_id', $group_id)->delete();
