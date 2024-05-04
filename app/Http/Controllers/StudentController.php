@@ -18,25 +18,32 @@ class StudentController extends Controller
 
 		$token = explode(".", $request->cookie('Auth'));
 		$user_id = json_decode(base64_decode($token[1]), true)['id'];
-        $user_role = json_decode(base64_decode($token[1]), true)['role'];
-        if ($user_role != 0) {
-        	return redirect('/');
-        }
-
-		$student = Student::where('user_id', $user_id)->get();
-		$group_id = $student[0]->group_id;
+		$user_role = json_decode(base64_decode($token[1]), true)['role'];
+		if ($user_role != 0) {
+			return redirect('/');
+		}
 
 		$user = User::where('id', $user_id)->get();
-		$group = StudentGroup::where('id', $group_id)->get();
+		$student = Student::where('user_id', $user_id)->first();
+		if ($student != null) {
+			$group_id = $student[0]->group_id;
 
-		$direction_id = $group[0]->direction_id;
-		$direction = direction::where('id', $direction_id)->get();
+			$group = StudentGroup::where('id', $group_id)->get();
 
-		$student_practics = PractStudent::where('student_id', $student[0]->id)->get();
-		$practics = [];
-		foreach ($student_practics as $student_practic) {
-			$pract_id = $student_practic->pract_id;
-			$practics[] = Practic::where('id', $pract_id)->get()[0];
+			$direction_id = $group[0]->direction_id;
+			$direction = direction::where('id', $direction_id)->get();
+
+			$student_practics = PractStudent::where('student_id', $student[0]->id)->get();
+			$practics = [];
+			foreach ($student_practics as $student_practic) {
+				$pract_id = $student_practic->pract_id;
+				$practics[] = Practic::where('id', $pract_id)->get()[0];
+			}
+		} else {
+			$group = null;
+			$direction = null;
+			$practics = [];
+			$student_practics = null;
 		}
 
 		return view('student', ['user' => $user, 'group' => $group, 'direction' => $direction, 'practics' => $practics, 'students' => $student_practics]);
