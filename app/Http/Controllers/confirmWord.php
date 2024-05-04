@@ -28,7 +28,6 @@ class confirmWord extends Controller
             }
             array_push($prcticsName, Practic::where('id', $item->pract_id)->get());
         }
-        dd($students_pract);
         return view('confirmWord', ['students_pract' => $students_pract, 'students' => $students, 'prcticsName' => $prcticsName, 'user_role' => $user_role]);
     }
 
