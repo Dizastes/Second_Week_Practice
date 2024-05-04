@@ -38,6 +38,8 @@ class PractisController extends Controller
 		$students = Student::all();
 		$practic_stud = [];
 
+		$students_list = [];
+
 		foreach ($practics as $practic) {
 			$practic_student = PractStudent::where('pract_id', $practic->id)->get();
 			array_push($practic_stud, $practic_student);
