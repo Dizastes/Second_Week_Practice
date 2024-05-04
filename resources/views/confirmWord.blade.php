@@ -20,7 +20,7 @@
                     <form action="download" method="post">
                         @csrf
                         <input type="hidden" value="{{ $students[$i][0]->id }}" name="user_id">
-                        <input type="tehiddenxt" value="{{ $students_pract[$i]->pract_id }}" name="pract_id">
+                        <input type="hidden" value="{{ $students_pract[$i]->pract_id }}" name="pract_id">
                         <input type="submit" class="mybtn" style="width:max-content; padding: 0 20px !important;"
                             value="скачать">
                     </form>
