@@ -24,8 +24,8 @@ class StudentController extends Controller
 		}
 
 		$user = User::where('id', $user_id)->get();
-		$student = Student::where('user_id', $user_id)->first();
-		if ($student != null) {
+		$student = Student::where('user_id', $user_id)->get();
+		if (count($student) > 0) {
 			$group_id = $student[0]->group_id;
 
 			$group = StudentGroup::where('id', $group_id)->get();
@@ -46,7 +46,15 @@ class StudentController extends Controller
 			$student_practics = null;
 		}
 
-		return view('student', ['user' => $user, 'group' => $group, 'direction' => $direction, 'practics' => $practics, 'students' => $student_practics]);
+		return view('student', ['user_role' => $this->getRole($request), 'user' => $user, 'group' => $group, 'direction' => $direction, 'practics' => $practics, 'students' => $student_practics]);
+	}
+
+
+	public function getRole($request)
+	{
+		$token = explode(".", $request->cookie('Auth'));
+		$user_role = json_decode(base64_decode($token[1]), true)['role'];
+		return $user_role;
 	}
 
 	public function uploadFile(Request $request)
