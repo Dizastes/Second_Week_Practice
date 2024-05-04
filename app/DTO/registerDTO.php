@@ -4,15 +4,17 @@ namespace App\DTO;
 
 class registerDTO
 {
-    public $name;
-    public $email;
+    public $f_name;
+    public $s_name;
+    public $t_name;
     public $password;
     public $login;
 
-    public function __construct($name, $email, $password, $login)
+    public function __construct($f_name, $s_name, $t_name, $password, $login)
     {
-        $this->name = $name;
-        $this->email = $email;
+        $this->f_name = $f_name;
+        $this->s_name = $s_name;
+        $this->t_name = $t_name;
         $this->password = $password;
         $this->login = $login;
     }

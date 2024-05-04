@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Cookie;
 
-
 class jwt
 {
     public function handle(Request $request, Closure $next): Response
@@ -15,14 +14,14 @@ class jwt
         $token = explode(".", $request->cookie('Auth'));
         if (count($token) < 3)
             return redirect()->route('login');
-    	$data = json_decode(base64_decode($token[1]), true);
+        $data = json_decode(base64_decode($token[1]), true);
 
         $expirationTime = $data['exp'];
 
-        $currentTimestamp = time(); 
+        $currentTimestamp = time();
 
         if ($currentTimestamp >= $expirationTime) {
-            return redirect()->route('login');
+            return redirect('/login')->withCookie(Cookie::forget('Auth'));
         }
         return $next($request);
     }

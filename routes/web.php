@@ -3,11 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\StatusController;
-use App\Http\Controllers\lkController;
-use App\Http\Controllers\cartController;
-
+use App\Http\Controllers\adminController;
+use App\Http\Controllers\generateController;
+use App\Http\Controllers\PractisController;
+use App\Http\Controllers\opopController;
+use App\Http\Controllers\StudentController;
+use App\Http\Controllers\confirmWord;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,49 +21,87 @@ use App\Http\Controllers\cartController;
 |
 */
 
-Route::get('/', [HomeController::class, "getData"])->name('home');
-
-Route::post('/addIngridient', [HomeController::class, "addIngridient"]);
-Route::post('/addNewIngridient', [HomeController::class, "addIngridientNewFood"]);
-Route::post('/deleteIngridient', [HomeController::class, "deleteIngridient"]);
-Route::post('/deleteNewIngridient', [HomeController::class, "deleteIngridientNewFood"]);
-Route::post('/addNewFood', [HomeController::class, "AddNewFood"]);
-
-Route::post('/NewFood', [HomeController::class, "getModalForAddNewFood"]);
-
-Route::get('/orders', [StatusController::class, "getOdersData"]);
-Route::post('/orders/change', [StatusController::class, "changeStatus"])->name('orders.change');
-Route::post('orders/next', [StatusController::class, "setNextStatus"])->name('orders.next');
-
-
-Route::get('welcome', function() {
-return view('welcome');
+Route::get('/', function () {
+    return redirect('login');
 });
 
-Route::get('login', function() {
-    return view('login');
-})->name('login')->middleware('login');
+Route::middleware(['login'])->group(function () {
 
-Route::post('login', [LoginController::class, "login"]);
+    Route::get('register', function () {
+        return view('register');
+    });
+    Route::post('register', [RegisterController::class, "register"]);
 
-Route::get('register', function() {
-    return view('register');
-})->middleware('login');
+    Route::get('login', function () {
+        return view('login');
+    })->name('login');
+    Route::post('login', [LoginController::class, "login"]);
+});
 
-Route::post('register', [RegisterController::class, "register"]);
+Route::middleware(['jwt'])->group(function () {
 
-Route::get('me', [LoginController::class, 'me']);
+    Route::get('logout', [LoginController::class, "logout"]);
+    Route::get('userpage', [UserController::class, 'redirectUser'])->name('userpage');
 
-Route::post('/cart/add', [cartController::class, 'addToCart'])->name('cart.add');
-Route::post('/cart/addInto', [cartController::class, 'addIntoCart'])->name('cart.addInto');
-Route::get('/cart', [cartController::class, 'showCart'])->name('cart.show')->middleware('jwt');
-Route::post('/cart/clear', [cartController::class, 'clearCart'])->name('cart.clear');
-Route::post('/cart/remove', [cartController::class, 'removeFromCart'])->name('cart.remove');
+    Route::post('createInstitute', [adminController::class, 'createInstitute']);
 
-Route::get('/lk',[lkController::class, 'getInfo'])->name('lk')->middleware('jwt');
+    Route::post('createDirection', [adminController::class, 'createDirection']);
+    Route::post('deleteDirection', [adminController::class, 'deleteDirection']);
 
-Route::get('logout', [LoginController::class, "logout"]);
+    Route::post('createOPOP', [adminController::class, 'OPOP']);
+    Route::post('createDirector', [adminController::class, 'createDirector']);
 
-Route::post('/cart/addorder', [cartController::class, 'addOrder']);
+    Route::get('admin', [adminController::class, 'getData']);
 
-// Route::get('')
+    Route::get('test', [adminController::class, 'getList']);
+
+    Route::get('practic', [PractisController::class, 'getData']);
+    Route::get('opop', [opopController::class, 'getData']);
+
+    Route::post('createGroup', [opopController::class, 'createGroup']);
+    Route::post('giveCourse', [opopController::class, 'giveCourse']);
+    Route::post('studentToGroup', [opopController::class, 'studentToGroup']);
+    Route::post('createPract', [opopController::class, 'createPract']);
+    Route::post('Pract', [opopController::class, 'getDataForChangePract']);
+    Route::post('changePract', [opopController::class, 'changePract']);
+    Route::get('Pract', function () {
+        return redirect('opop');
+    });
+
+    Route::post('createGroup', [opopController::class, 'createGroup']);
+    Route::post('giveCourse', [opopController::class, 'giveCourse']);
+    Route::post('studentToGroup', [opopController::class, 'studentToGroup']);
+    Route::post('createPract', [opopController::class, 'createPract']);
+    Route::post('Pract', [opopController::class, 'getDataForChangePract']);
+    Route::post('changePract', [opopController::class, 'changePract']);
+    Route::get('Pract', function () {
+        return redirect('opop');
+    });
+    Route::post('addPractStudent', [PractisController::class, 'addPractStudent']);
+
+    Route::get('Otchet', [generateController::class, 'getWord']);
+
+    Route::get('student', [StudentController::class, 'getData'])->name('student');
+
+    Route::get('confirmWord', [confirmWord::class, 'getData']);
+
+    Route::post('confirm', [confirmWord::class, 'confirmDoc']);
+
+    Route::post('download', [generateController::class, 'getWord']);
+
+    Route::post('uploadfile', [StudentController::class, 'uploadFile']);
+
+    Route::get('groups', [opopController::class, 'getDataForGroup']);
+    Route::post('deleteGroup', [opopController::class, 'deleteGroup']);
+    Route::post('addDirector', [opopController::class, 'addDirector']);
+
+    Route::get('groupWord', [generateController::class, "getGroupWord"]);
+
+    Route::post('groupWord', [generateController::class, "getGroupWord"]);
+
+    Route::get('get-groups/{practiceId}', [opopController::class, "getGroups"]);
+
+    Route::post('checkStatus', [opopController::class, "getDataForWord"]);
+
+    Route::get('get-direction/{institute_Id}', [adminController::class, "getDirection"]);
+});

@@ -23,9 +23,10 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:50',
+            'first_name' => 'required|string|max:50',
+            'second_name' => 'required|string|max:50',
+            'third_name' => 'string|max:50',
             'login' => 'required|string|unique:users',
-            'email' => 'required|string|email|unique:users',
             'password' => 'required|string|min:8',
             'c_password' => 'required|string|min:8|same:password',
         ];
@@ -33,10 +34,11 @@ class RegisterRequest extends FormRequest
 
     public function createDTO() : RegisterDTO {
         return new registerDTO(
-            $this->input('name'),
-            $this->input('email'),
+            $this->input('first_name'),
+            $this->input('second_name'),
+            $this->input('third_name'),
             $this->input('password'),
-            $this->input('login')
+            $this->input('login'),
         );
     }
 }

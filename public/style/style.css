@@ -1,0 +1,238 @@
+header h1 {
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 5%;
+}
+
+main {
+    width: 80% !important;
+    margin: 2% auto !important;
+}
+
+.container_admin,
+.form_admin {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+}
+
+.container_admin h2 {
+    width: 32%;
+}
+
+.form_admin {
+    width: 68%;
+    margin-left: 1%;
+}
+
+.form_admin * {
+    margin-right: 1%;
+}
+
+.form_admin button {
+    width: 4vh;
+    height: 4vh;
+    background-color: #c8deff;
+    line-height: normal;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS";
+    border-radius: 50%;
+    border: none;
+    font-size: 30px;
+    margin: 0;
+}
+
+hr {
+    border: 0.5vh solid #45439d !important;
+    opacity: 100 !important;
+}
+
+.selectize-input {
+    display: flex;
+    align-items: center;
+    min-width: 15vw;
+    max-width: 500px;
+    border-radius: 50px !important;
+    border: none;
+    background-color: #c8deff !important;
+    flex-wrap: wrap;
+    padding: 1.5%;
+    vertical-align: middle;
+    outline: none;
+    font-size: 20px;
+}
+
+.selectize-input * {
+    background-color: #c8deff !important;
+    padding: 1%;
+}
+
+.main_admin input {
+    border-radius: 50px;
+    border: none;
+    background-color: #c8deff;
+    width: 15vw;
+    height: 4vh;
+    vertical-align: middle;
+    padding-left: 1% !important;
+    outline: none;
+    font-size: 20px;
+}
+
+.login-form {
+    width: 100%;
+    margin: auto;
+}
+
+.login-form * {
+    margin-top: 0.5%;
+}
+
+.login-page {
+    width: 80%;
+    height: 90vh;
+    display: flex;
+    align-items: center;
+}
+
+.login-page form {
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+
+.login-form input {
+    background-color: #c8deff;
+    border: none;
+    color: black;
+}
+
+.section {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1%;
+}
+
+.section * {
+    margin-right: 5%;
+}
+
+.more_info input {
+    width: 10vw;
+}
+
+.direct {
+    width: 100%;
+    padding-left: 1%;
+}
+
+.small_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.small_info input {
+    text-align: center;
+}
+
+.mybtn {
+    border-radius: 50px;
+    height: 5vh;
+    width: 15vw;
+    border: none;
+    font-size: 20px;
+}
+
+.mybtn:hover {
+    cursor: pointer;
+    background-color: #c5c5c5;
+}
+
+.input-file {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.input-file-text {
+    width: 8vw;
+    margin: 0;
+    padding: 0 10px;
+    line-height: 40px;
+    text-align: left;
+    display: block;
+    float: left;
+    box-sizing: border-box;
+    border-radius: 50px 0px 0 50px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+.input-file-btn {
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    text-decoration: none;
+    font-size: 1vw;
+    vertical-align: middle;
+    text-align: center;
+    border-radius: 0 50px 50px 0;
+    background-color: #c8deff;
+    line-height: 22px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    border: none;
+    margin: 0;
+    transition: background-color 0.2s;
+}
+.input-file input[type="file"] {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+    display: block;
+    width: 0;
+    height: 0;
+}
+
+.student_info {
+    margin: 2%;
+}
+
+.student_info div {
+    justify-content: center;
+}
+
+.student_info div * {
+    width: 30%;
+}
+
+.practicData {
+    width: 20vw;
+}
+
+/* Focus */
+.input-file input[type="file"]:focus + .input-file-btn {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Hover/active */
+.input-file:hover .input-file-btn {
+    background-color: #a7c8fa;
+}
+.input-file:active .input-file-btn {
+    background-color: #a7c8fa;
+}
+
+/* Disabled */
+.input-file input[type="file"]:disabled + .input-file-btn {
+    background-color: #eee;
+}
+
+.user_head_btn {
+    position: relative;
+}
