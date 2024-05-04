@@ -41,7 +41,6 @@ class generateController extends Controller
         $place = Place::where('id', $pract->place_id)->first();
         $group_id = $student->group_id;
         $group = StudentGroup::where('id', $group_id)->first();
-
         $or_id = $pract->director_or_id;
         $or = director::where('id', $or_id)->first();
         $or_user = User::where('id', $or->user_id)->first();
@@ -57,7 +56,6 @@ class generateController extends Controller
         $characteristic = '';
         $char = '';
         $howtocomplet = Volume::where('id', $practStudent->volume_id)->first()->volume;
-
         $tasks = [];
         $tasksTemp = explode(',', $practStudent->tasks);
         foreach ($tasksTemp as $task) {
@@ -77,14 +75,12 @@ class generateController extends Controller
 
         $charId = PractProblem::where('pract_id', $practStudent->id)->get();
         foreach ($charId as $temp) {
-            $tmp = Problem::where('id', $temp->problem_id)->first()->charact;
-
+            $tmp = Problem::where('id', $temp->problem_id)->first()->name;
             if ($char == '') {
                 $char = $tmp;
                 $char .= ', ' . $tmp;
             }
         }
-
         $errors = [];
         $errorsId = PractRemark::where('pract_id', $practStudent->id)->get();
         foreach ($errorsId as $error) {
@@ -117,6 +113,8 @@ class generateController extends Controller
         $info['char'] = $char;
         $info['howtocomplet'] = $howtocomplet;
         $info['marks'] = $practStudent->mark;
+        $info['PracticTypeP'] = NounDeclension::getCase(Type::where('id', $pract->type_id)->first()->name, 'предложный');
+        $info['PracticViewP'] = NounDeclension::getCase(View::where('id', $pract->view_id)->first()->name, 'предложный');
         $info['errors'] = $errors;
         $info['tasks'] = $tasks;
         $info['values'] = $values;
