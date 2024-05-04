@@ -78,6 +78,7 @@ class generateController extends Controller
             $tmp = Problem::where('id', $temp->problem_id)->first()->name;
             if ($char == '') {
                 $char = $tmp;
+            } else {
                 $char .= ', ' . $tmp;
             }
         }
@@ -114,13 +115,13 @@ class generateController extends Controller
         $info['howtocomplet'] = $howtocomplet;
         $info['marks'] = $practStudent->mark;
         $info['PracticTypeP'] = NounDeclension::getCase(Type::where('id', $pract->type_id)->first()->name, 'предложный');
-        $info['PracticViewP'] = NounDeclension::getCase(View::where('id', $pract->view_id)->first()->name, 'предложный');
+        $info['PracticViewP'] = View::where('id', $pract->view_id)->first()->name;
         $info['errors'] = $errors;
         $info['tasks'] = $tasks;
         $info['values'] = $values;
         $info['fullNameR'] = inflectName($info['fullName'], 'родительный');
         $info['fullNameD'] = inflectName($info['fullName'], 'дательный');
-        $info['namePracticeV'] = inflectName($info['namePractice'], 'дательный');
+        $info['namePracticeV'] = NounDeclension::getCase($info['namePractice'], 'винительный');;
         $info['practiceNameR'] = GeographicalNamesInflection::getCase($info['namePractice'], 'предложный');
         return $info;
     }
@@ -137,7 +138,9 @@ class generateController extends Controller
         $order = Order::where('id', $pract->order_id)->first();
         $order_date = explode('-', $order->date);
         $pract_student_complete = PractStudent::where('pract_id', $pract_id)->where('complete', 1)->get();
-
+        $ugu_id = $pract->director_ugu_id;
+        $ugu = director::where('id', $ugu_id)->first();
+        $ugu_user = User::where('id', $ugu->user_id)->first();
         $pract_student_uncomplete = PractStudent::where('pract_id', $pract_id)->where('complete', 0)->get();
         $or_id = $pract->director_or_id;
         $or = director::where('id', $or_id)->first();
@@ -156,6 +159,7 @@ class generateController extends Controller
         $info['PracticType'] = Type::where('id', $pract->type_id)->first()->name;
         $info['yearOld'] = $pract->year - 1;
         $info['year'] = $pract->year;
+        $info['UguCutName'] = $ugu_user->second_name . ' ' .  mb_substr($ugu_user->first_name, 0, 1, 'UTF-8') . '.' . mb_substr($ugu_user->third_name, 0, 1, 'UTF-8') . '.';
         $info['GroupCode'] = $direction->code;
         $info['SpecialName'] = $direction->name;
         $info['Course'] = $group->course;
