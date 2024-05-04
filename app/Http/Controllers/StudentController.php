@@ -24,8 +24,8 @@ class StudentController extends Controller
 		}
 
 		$user = User::where('id', $user_id)->get();
-		$student = Student::where('user_id', $user_id)->first();
-		if ($student != null) {
+		$student = Student::where('user_id', $user_id)->get();
+		if (count($student) > 0) {
 			$group_id = $student[0]->group_id;
 
 			$group = StudentGroup::where('id', $group_id)->get();
