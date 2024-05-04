@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Ананас</title>
+    <title>Подтверждение</title>
     @include('templates.include')
     @include('templates.bootstrap')
 </head>
@@ -19,8 +19,8 @@
                     style="background-color: #DAE2F8;  border-radius: 10px">
                     <form action="download" method="post">
                         @csrf
-                        <input type="text" value="{{ $students_pract[$i]->student_id }}" name="student_id">
-                        <input type="text" value="{{ $students_pract[$i]->pract_id }}" name="pract_id">
+                        <input type="hidden" value="{{ $students[$i][0]->id }}" name="user_id">
+                        <input type="hidden" value="{{ $students_pract[$i]->pract_id }}" name="pract_id">
                         <input type="submit" class="mybtn" style="width:max-content; padding: 0 20px !important;"
                             value="скачать">
                     </form>

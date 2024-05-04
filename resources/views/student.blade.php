@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    @include('templates.admin')
     <main>
         <div class="section">
             <h1 style="margin:0">Студент</h1>
@@ -21,11 +22,20 @@
             </div>
             <div class="container_admin">
                 <h3>Группа</h3>
-                <h4>{{ $group[0]->name }}</h4>
+                @if ($group != null)
+                    <h4>{{ $group[0]->name }}</h4>
+                @else
+                    <h4>{{ 'Не имеется' }}</h4>
+                @endif
             </div>
             <div class="container_admin">
                 <h3>Программа обучения</h3>
-                <h4>{{ $direction[0]->name }}</h4>
+                @if ($direction != null)
+                    <h4>{{ $direction[0]->name }}</h4>
+                @else
+                    <h4>{{ 'Не имеется' }}</h4>
+                @endif
+
             </div>
         </div>
         <hr>
@@ -33,6 +43,7 @@
             <div class="section">
                 <h2 style="margin:0">Отчеты</h2>
             </div>
+
             @for ($i = 0; $i < count($practics); $i++)
                 @if ($students[$i]->complete == 1)
                     <div class="section" style="justify-content:initial">
@@ -63,7 +74,7 @@
                         @elseif ($students[$i]->status == '' || $students[$i]->status == 'Отказано')
                             <form action="confirm" method="post">
                                 @csrf
-                                <input type="text" value="{{ $students[$i]->id }}" name="pract_id">
+                                <input type="hidden" value="{{ $students[$i]->id }}" name="pract_id">
                                 <input type="submit" style="width:max-content; height:max-content" class="mybtn"
                                     value="Запросить" name="confirm">
                             </form>

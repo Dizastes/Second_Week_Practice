@@ -406,8 +406,10 @@ class opopController extends Controller
         $count = Practic::where('director_id', $old_director_id)->count();
 
         if ($count == 0) {
-            $user_id_t = director::where('id', $old_director_id)->first()->user_id;
-            User::where('id', $user_id_t)->first()->setAttribute('role', 0)->save();
+            if ($old_director_id != null) {
+                $user_id_t = director::where('id', $old_director_id)->first()->user_id;
+                User::where('id', $user_id_t)->first()->setAttribute('role', 0)->save();
+            }
         }
 
         $gr_temp = PractGroup::where('pract_id', $pract->id)->get();
